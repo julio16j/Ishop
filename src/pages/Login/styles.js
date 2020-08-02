@@ -6,73 +6,31 @@ export default StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: Constants.statusBarHeight + 20,
+    backgroundColor:'#F2CB07',
   },
-
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  logoImg: {
+    height: 180,
+    width: 180
+  },
+  p: {
+    fontSize: 20
+  },
+  login: {
+    borderBottomColor: '#111111',
+    borderBottomWidth: 1,
+    width: '80%'
+  },
+  body: {
+    backgroundColor: 'white',
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+  },
   header: {
-    flexDirection:'row',
-    justifyContent:"space-between",
-    alignItems:'center'
-  },
-
-  incident: {
-    padding: 24,
-    borderRadius: 8,
-    backgroundColor: '#FFF',
-    marginBottom: 16,
-    marginTop: 48
-  },
-
-  incidentProperty: {
-    fontSize: 14,
-    color: '#41414d',
-    fontWeight: 'bold',
-    marginTop: 24
-  },
-
-  incidentValue: {
-    marginTop: 8,
-    fontSize: 15,
-    color: '#737380'
-  },
-
-  contactBox: {
-    padding: 24,
-    borderRadius: 8,
-    backgroundColor: '#FFF',
-    marginBottom: 16,
-  },
-
-  heroTitle: {
-    fontWeight:'bold',
-    fontSize: 20,
-    color: '#13131a',
-    lineHeight: 30,
-  },
-
-  heroDescription: {
-    fontSize: 15,
-    color: '#737380',
-    marginTop: 16,
-  },
-
-  actions: {
-    marginTop: 16,
-    flexDirection:'row',
-    justifyContent: 'space-between'
-  },
-
-  action: {
-    backgroundColor: '#e02041',
-    borderRadius: 8,
-    height: 50,
-    width: '48%',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  actionText: {
-    color: '#FFF',
-    fontSize: 15,
-    fontWeight: 'bold'
+    height: 300
   }
 });

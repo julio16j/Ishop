@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Cadastrar from './pages/Cadastrar'
 const AppStack = createStackNavigator();
 
 export default function Routes() {
@@ -13,6 +14,8 @@ export default function Routes() {
       <AppStack.Navigator screenOptions={{ headerShown: false }} >
         <AppStack.Screen name="Login" component={Login} />
         <AppStack.Screen name="home"  component={Home} />
+        <AppStack.Screen name="cadastrar"  component={Cadastrar} />
+
       </AppStack.Navigator>
 
     </NavigationContainer>

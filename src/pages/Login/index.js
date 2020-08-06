@@ -14,6 +14,9 @@ export default function Login() {
   function NavigateHome () {
     navigation.navigate('home')
   }
+  function NavigateCadastrar () {
+    navigation.navigate('cadastrar')
+  }
   return (
     <View  style={styles.container} >
       <View style={[styles.header, styles.center]} >        
@@ -29,10 +32,10 @@ export default function Login() {
           <Input updateField={setPassword} placeholder={'Senha'} hidden={true} style={{marginTop: 10, width: 300}} />
           <View style={{width: '100%', flexDirection: 'row'}}>
             <TouchableOpacity style={{marginTop: 10, width: '50%'}} onPress={() => console.log('esqueci a senha')}>
-              <Text >Cadastre-se</Text>
+              <Text >Esqueci a senha</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{marginTop: 10}} onPress={() => console.log('esqueci a senha')}>
-              <Text >Esqueceu a senha ?</Text>
+            <TouchableOpacity style={{marginTop: 10}} onPress={() => NavigateCadastrar()}>
+              <Text >Cadastre-se</Text>
             </TouchableOpacity>
           </View>
           <Button label={'Entrar'} click={() => console.log(email, password)} style={{width: 300}}/>

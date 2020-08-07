@@ -1,6 +1,6 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import styles from './styles';
+import React from 'react'
+import {View, Text} from 'react-native'
+import styles from './styles'
 
 export default function EmTransito() {
   return (
@@ -9,5 +9,5 @@ export default function EmTransito() {
          Em Trânsito
         </Text>
     </View>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-
-import Home from './pages/Home';
-import Login from './pages/Login';
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native'
+import FlashMessage from "react-native-flash-message";
+import Home from './pages/Home'
+import Login from './pages/Login'
 import Cadastrar from './pages/Cadastrar'
-const AppStack = createStackNavigator();
+const AppStack = createStackNavigator()
 
 export default function Routes() {
   return (
@@ -17,7 +17,7 @@ export default function Routes() {
         <AppStack.Screen name="cadastrar"  component={Cadastrar} />
 
       </AppStack.Navigator>
-
+      <FlashMessage position="top" />
     </NavigationContainer>
-  );
+  )
 }

@@ -1,24 +1,63 @@
-import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react'
+import {View, Text, Image, TouchableOpacity} from 'react-native'
+import { Feather } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import Input from '../../components/input'
 import Button from '../../components/button'
-import logoImg from '../../assets/ishopLogoPreta.png';
-import styles from './styles';
-
+import logoImg from '../../assets/ishopLogoPreta.png'
+import { stringNotNull, getSistema } from '../../services/utils'
+import { login, validarLogin } from '../../services/user'
+import Spinner from 'react-native-loading-spinner-overlay';
+import { errorMessage } from '../../services/alerts'
+import styles from './styles'
 export default function Login() {
   const navigation = useNavigation()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  function NavigateHome () {
-    navigation.navigate('home')
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [loading, setLoading] = useState(false)
+  async function logar (email, password) {
+    setLoading(true)
+    if (!validaLogin(email, password)) {
+      setLoading(false)
+      return
+    }
+    const loginResponse = await login(email, password, getSistema())
+    try {
+      const isValidLogin = await validarLogin(loginResponse.data.token)
+      if (isValidLogin === true) {
+        setLoading(false)
+        NavigateHome({ token: loginResponse.data.token})
+      }
+      else errorMessage(loginResponse.data.exception)
+    } catch {
+      errorMessage('Login Inválido')
+    }
+    setLoading(false)
+  }
+  function validaLogin (email, password) {
+    if (!stringNotNull(email)) {
+      errorMessage('Email não poder nulo')
+      return false
+    }
+    if (!stringNotNull(password)) {
+      errorMessage('Senha não poder nula')
+      return false
+    }
+    return true
+  }
+  function NavigateHome (params = {}) {
+    navigation.navigate('home', params)
   }
   function NavigateCadastrar () {
     navigation.navigate('cadastrar')
   }
   return (
     <View  style={styles.container} >
+      <Spinner
+        visible={loading}
+        textContent={'Loading...'}
+        textStyle={{color: '#FFF'}}
+      />
       <View style={[styles.header, styles.center]} >        
           <Image source={logoImg} style={styles.logoImg} />
       </View>
@@ -38,9 +77,9 @@ export default function Login() {
               <Text >Cadastre-se</Text>
             </TouchableOpacity>
           </View>
-          <Button label={'Entrar'} click={() => console.log(email, password)} style={{width: 300}}/>
+          <Button label={'Entrar'} click={() => logar(email, password)} style={{width: 300}}/>
         </View>
       </View>
     </View>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {View, TextInput, Text} from 'react-native'
 export default function (props) {
   const standardStyle = {

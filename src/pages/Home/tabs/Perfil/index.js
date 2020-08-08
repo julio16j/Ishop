@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, TouchableWithoutFeedback} from 'react-native'
+import {View, Text, TouchableOpacity} from 'react-native'
 import styles from './styles'
 import {
   SimpleLineIcons,
@@ -28,7 +28,7 @@ export default function Perfil() {
   }
   return (
     <View style={styles.container}>
-        <TouchableWithoutFeedback >
+        <TouchableOpacity >
           <View style={styles.option}>
             <View style={{flexDirection: 'row'}}>
               <View style={styles.icon}>
@@ -45,9 +45,9 @@ export default function Perfil() {
             </View>
           </View>
             
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
-        <TouchableWithoutFeedback >
+        <TouchableOpacity >
           <View style={styles.option}>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.icon}>
@@ -64,9 +64,9 @@ export default function Perfil() {
             </View>
           </View>
             
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
-        <TouchableWithoutFeedback >
+        <TouchableOpacity >
           <View style={styles.option}>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.icon}>
@@ -83,9 +83,9 @@ export default function Perfil() {
             </View>
           </View>
             
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
-        <TouchableWithoutFeedback >
+        <TouchableOpacity >
           <View style={styles.option}>
             <View style={{flexDirection: 'row'}}>
               <View style={styles.icon}> 
@@ -101,9 +101,9 @@ export default function Perfil() {
               <Ionicons name="ios-arrow-forward" size={24} color="#666666" />
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
-        <TouchableWithoutFeedback onPress={() => logout()}>
+        <TouchableOpacity onPress={() => logout()}>
           <View style={styles.option}>
             <View style={{flexDirection: 'row'}}>
               <View style={styles.icon}>
@@ -119,7 +119,7 @@ export default function Perfil() {
               <Ionicons name="ios-arrow-forward" size={24} color="#666666" />
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
 
     </View>
   )

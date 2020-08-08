@@ -23,6 +23,9 @@ export default StyleSheet.create({
   },
   icon:{
     height: 30,
-    width: 30
+    width: 30,
+    alignItems: 'center',
+    resizeMode: "contain"
+
   }
 })

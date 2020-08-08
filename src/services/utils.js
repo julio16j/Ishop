@@ -1,4 +1,5 @@
 import { Platform } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 export function stringNotNull (string) {
   return string !== null && string !== undefined && string !== ''
 }

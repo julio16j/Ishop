@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {View, Text, Image, TouchableOpacity} from 'react-native'
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import Input from '../../components/input'
@@ -10,7 +10,7 @@ import { login, validarLogin } from '../../services/user'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { errorMessage } from '../../services/alerts'
 import AsyncStorage from '@react-native-community/async-storage';
-import store from '../../store'
+import store from '../../store' 
 import { setToken } from '../../store/user/userReducer'
 import styles from './styles' 
 export default function Login() {
@@ -22,6 +22,7 @@ export default function Login() {
     async function getToken () {
       try {
         const token = await AsyncStorage.getItem('token')
+        console.log(token)
         if (token !== null) {
           store.dispatch(setToken(token))
           NavigateHome()
@@ -45,10 +46,15 @@ export default function Login() {
       if (isValidLogin === true) {
         setLoading(false)
         await AsyncStorage.setItem('token', loginResponse.data.token)
+        store.dispatch(setToken(loginResponse.data.token))
         NavigateHome()
       }
-      else errorMessage(loginResponse.data.exception)
-    } catch {
+      else {
+        setLoading(false)
+        errorMessage(loginResponse.data.exception)
+      }
+    } catch (error) {
+      console.log(error)
       errorMessage('Login Inválido')
     }
     setLoading(false)

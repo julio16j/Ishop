@@ -25,6 +25,7 @@ export default function Login() {
         console.log(token)
         if (token !== null) {
           store.dispatch(setToken(token))
+
           NavigateHome()
         }
       } catch (error) {
@@ -47,6 +48,8 @@ export default function Login() {
         setLoading(false)
         await AsyncStorage.setItem('token', loginResponse.data.token)
         store.dispatch(setToken(loginResponse.data.token))
+        setEmail(null)
+        setPassword(null)
         NavigateHome()
       }
       else {
@@ -92,8 +95,8 @@ export default function Login() {
             <Text style={styles.p}>Informe seus dados de acesso.</Text>
         </View>
         <View>
-          <Input updateField={setEmail} placeholder={'Email'} style={{marginTop: 10, width: 300}} />
-          <Input updateField={setPassword} placeholder={'Senha'} hidden={true} style={{marginTop: 10, width: 300}} />
+          <Input updateField={setEmail} placeholder={'Email'} style={{marginTop: 10, width: 300}} value={email}/>
+          <Input updateField={setPassword} placeholder={'Senha'} hidden={true} style={{marginTop: 10, width: 300}} value={password} />
           <View style={{width: '100%', flexDirection: 'row'}}>
             <TouchableOpacity style={{marginTop: 10, width: '50%'}} onPress={() => console.log('esqueci a senha')}>
               <Text >Esqueci a senha</Text>

@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import Input from '../../components/input'
 import Button from '../../components/button'
 import Spinner from 'react-native-loading-spinner-overlay'
-import logoImg from '../../assets/ishopLogoPreta.png'
+import logoImg from '../../assets/ishopLogoPreta.png'                            
 import { cadastrar } from '../../services/user'
 import { successMessage, errorMessage } from '../../services/alerts'
 import { stringNotNull } from '../../services/utils'
@@ -30,6 +30,11 @@ export default function Cadastrar() {
       if (response.data.exception !== undefined) {
         setLoading(false)
         successMessage('Loja Cadastrada com sucesso')
+        setEmail(null)
+        setNome(null)
+        setSelecionado(null)
+        setPassword(null)
+        setConfirmPassword(null)
         NavigateLogin()
       }
       else errorMessage(response.data.exception)

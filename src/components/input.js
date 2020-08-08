@@ -10,7 +10,8 @@ export default function (props) {
   return (
     <View style={{...standardStyle, ...props.style}} >      
       <TextInput placeholder={props.placeholder} secureTextEntry={props.hidden}
-        onChangeText={text => props.updateField(text)} />
+        onChangeText={text => {console.log(text)
+         props.updateField(text)}} value={props.value}/>
     </View>
   )
 }

@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
+import { StyleSheet } from 'react-native'
+import Constants from 'expo-constants'
 
 export default StyleSheet.create({
   container: {
@@ -28,9 +28,9 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     paddingVertical: 30,
     paddingHorizontal: 20,
-    borderRadius: 30,
+    borderRadius: 30
   },
   header: {
     height: 300
   }
-});
+})

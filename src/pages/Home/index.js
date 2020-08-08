@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react'
 import {
   MaterialIcons,
   AntDesign,
   MaterialCommunityIcons,
-} from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Disponiveis from "./tabs/Disponiveis";
-import Confirmados from "./tabs/Confirmados";
-import EmTransito from "./tabs/EmTransito";
-import Finalizados from "./tabs/Finalizados";
-import Perfil from "./tabs/Perfil";
+} from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import AsyncStorage from '@react-native-community/async-storage';
+import { validarLogin } from '../../services/user'
+import Disponiveis from "./tabs/Disponiveis"
+import Confirmados from "./tabs/Confirmados"
+import EmTransito from "./tabs/EmTransito"
+import Finalizados from "./tabs/Finalizados"
+import Perfil from "./tabs/Perfil"
 export default function Home() {
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator()
   return (
     <Tab.Navigator>
       <Tab.Screen name="disponiveis" component={Disponiveis} options={{
@@ -45,5 +47,5 @@ export default function Home() {
           ),
         }} />
     </Tab.Navigator>
-  );
+  )
 }

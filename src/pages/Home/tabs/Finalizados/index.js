@@ -1,6 +1,6 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import styles from './styles';
+import React from 'react'
+import {View, Text} from 'react-native'
+import styles from './styles'
 
 export default function Finalizados() {
   return (
@@ -9,5 +9,5 @@ export default function Finalizados() {
          Finalizados
         </Text>
     </View>
-  );
+  )
 }

@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, CheckBox} from 'react-native';
+import {View, Text, Image, TouchableOpacity, CheckBox, ScrollView} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Input from '../../components/input'
 import Button from '../../components/button'
 import logoImg from '../../assets/ishopLogoPreta.png';
 import styles from './styles';
+import axios from 'axios';
 
 export default function Login() {
   const navigation = useNavigation();
@@ -23,8 +24,9 @@ export default function Login() {
   function NavigateLogin () {
     navigation.navigate('Login')
   }
+
   return (
-    <View  style={styles.container} >
+    <ScrollView  style={styles.container} >
       <View style={[styles.header, styles.center]} >        
           <Image source={logoImg} style={styles.logoImg} />
       </View>
@@ -52,10 +54,18 @@ export default function Login() {
               <Text >Ir para login</Text>
             </TouchableOpacity>
           </View>
-          <Button label={'Cadastrar'} click={() => NavigateHome() } style={{width: 300}}/>
+          <Button label={'Cadastrar'} click={() => axios.post('/store/signup', {
+            Email: email,
+            Senha: password,
+            })
+            .then(response => {console.log(response.data)})
+            .catch(error => {
+              console.log(error);
+            })} style={{width: 300}}/>
         </View>
       </View>
-    </View>
+
+    </ScrollView>
   );
 };
 

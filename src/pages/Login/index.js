@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Input from '../../components/input'
@@ -18,7 +18,7 @@ export default function Login() {
     navigation.navigate('cadastrar')
   }
   return (
-    <View  style={styles.container} >
+    <ScrollView  style={styles.container} >
       <View style={[styles.header, styles.center]} >        
           <Image source={logoImg} style={styles.logoImg} />
       </View>
@@ -41,6 +41,6 @@ export default function Login() {
           <Button label={'Entrar'} click={() => console.log(email, password)} style={{width: 300}}/>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }

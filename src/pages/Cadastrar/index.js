@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import Input from '../../components/input'
 import Button from '../../components/button'
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from 'react-native-loading-spinner-overlay'
 import logoImg from '../../assets/ishopLogoPreta.png'
 import { cadastrar } from '../../services/user'
 import { successMessage, errorMessage } from '../../services/alerts'
@@ -32,7 +32,7 @@ export default function Cadastrar() {
         successMessage('Loja Cadastrada com sucesso')
         NavigateLogin()
       }
-      else errorMessage(loginResponse.data.exception)
+      else errorMessage(response.data.exception)
     } catch (err) {
       console.log(err)
       errorMessage('Cadastro Inválido')

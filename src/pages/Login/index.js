@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {View, Text, Image, TouchableOpacity} from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
@@ -7,14 +7,32 @@ import Button from '../../components/button'
 import logoImg from '../../assets/ishopLogoPreta.png'
 import { stringNotNull, getSistema } from '../../services/utils'
 import { login, validarLogin } from '../../services/user'
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from 'react-native-loading-spinner-overlay'
 import { errorMessage } from '../../services/alerts'
-import styles from './styles'
+import AsyncStorage from '@react-native-community/async-storage';
+import store from '../../store'
+import { setToken } from '../../store/user/userReducer'
+import styles from './styles' 
 export default function Login() {
   const navigation = useNavigation()
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
   const [loading, setLoading] = useState(false)
+  useEffect( () => {
+    async function getToken () {
+      try {
+        const token = await AsyncStorage.getItem('token')
+        if (token !== null) {
+          store.dispatch(setToken(token))
+          NavigateHome()
+        }
+      } catch (error) {
+        console.log('useEffect Error retrieving token')
+        console.log(error)
+      }
+    }
+    getToken()
+  }, [])
   async function logar (email, password) {
     setLoading(true)
     if (!validaLogin(email, password)) {
@@ -26,7 +44,8 @@ export default function Login() {
       const isValidLogin = await validarLogin(loginResponse.data.token)
       if (isValidLogin === true) {
         setLoading(false)
-        NavigateHome({ token: loginResponse.data.token})
+        await AsyncStorage.setItem('token', loginResponse.data.token)
+        NavigateHome()
       }
       else errorMessage(loginResponse.data.exception)
     } catch {
@@ -45,8 +64,8 @@ export default function Login() {
     }
     return true
   }
-  function NavigateHome (params = {}) {
-    navigation.navigate('home', params)
+  function NavigateHome () {
+    navigation.navigate('home')
   }
   function NavigateCadastrar () {
     navigation.navigate('cadastrar')

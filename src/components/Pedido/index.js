@@ -2,7 +2,8 @@ import React, {useMemo} from 'react'
 import {View, Text, FlatList, TouchableOpacity} from 'react-native'
 import styles from './styles'
 import Item from '../Item'
-export default function Pedido({pedido}) {  
+import Spinner from 'react-native-loading-spinner-overlay'
+export default function Pedido({pedido, confirmar, rejeitar, token, loading = false}) {  
   const total = useMemo(() => {
     return pedido.itens.reduce((acumulador, atual) => {
       return acumulador + atual.quantidade * atual.valorUnitario 
@@ -10,6 +11,11 @@ export default function Pedido({pedido}) {
   }, [pedido.itens])
   return (
     <View style={styles.card}>
+      <Spinner
+        visible={loading}
+        textContent={'Loading...'}
+        textStyle={{color: '#FFF'}}
+      />
       <View style={styles.header}>
         <Text style={styles.nome}>{pedido.nome}</Text>
         <View style={styles.info}>
@@ -32,12 +38,12 @@ export default function Pedido({pedido}) {
       </View>
       <View style={styles.options}>
         <View style={{alignItems: "center"}}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => confirmar(token, pedido.pedidoId)}>
             <Text style={styles.textOption}>Confirmar</Text>
           </TouchableOpacity>
         </View>
         <View style={{alignItems: "center"}}>
-          <TouchableOpacity>
+        <TouchableOpacity onPress={() => rejeitar(token, pedido.pedidoId)}>
             <Text style={styles.textOption}>Cancelar</Text>
           </TouchableOpacity>
         </View>

@@ -40,7 +40,7 @@ export default function Disponiveis() {
   }
   async function catchPedidos () {
     try {
-      setPedidos(await pedidosFechados(token))        
+      setPedidos(await pedidosFechados(token))
     }catch (error) {
       console.log(error)
     }

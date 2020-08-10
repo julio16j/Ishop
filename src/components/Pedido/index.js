@@ -12,9 +12,9 @@ export default function Pedido({pedido}) {
     <View style={styles.card}>
       <View style={styles.header}>
         <Text style={styles.nome}>{pedido.nome}</Text>
-        <View>
-          <Text>{(pedido.bairro + ',' || 'Bessa,')}</Text>
-          <Text>{( pedido.cep || '58036-385' )}</Text>
+        <View style={styles.info}>
+          <Text style={styles.textInfo}>{(pedido.bairro || 'Bessa, ')}</Text>
+          <Text style={styles.textInfo}>{( pedido.cep || '58036-385' )}</Text>
         </View>
       </View>
       <View style={styles.items}>
@@ -27,15 +27,20 @@ export default function Pedido({pedido}) {
         />
       </View>
       <View style={styles.total}>
-          <Text>{total}</Text>
+            <Text style={{fontWeight:"bold", fontSize:18, color:"#BFBFBF"}}>R$</Text>
+            <Text style={{fontSize:18, color:"#BFBFBF"}}>{total}</Text>
       </View>
       <View style={styles.options}>
-        <TouchableOpacity>
-          <Text>Confirmar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text>Cancelar</Text>
-        </TouchableOpacity>
+        <View style={{alignItems: "center"}}>
+          <TouchableOpacity>
+            <Text style={styles.textOption}>Confirmar</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{alignItems: "center"}}>
+          <TouchableOpacity>
+            <Text style={styles.textOption}>Cancelar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )

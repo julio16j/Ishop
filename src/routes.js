@@ -5,12 +5,13 @@ import FlashMessage from "react-native-flash-message";
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Cadastrar from './pages/Cadastrar'
+import Header from "./components/header"
 const AppStack = createStackNavigator()
 
 export default function Routes() {
   return (
     <NavigationContainer>
-
+      <Header />   
       <AppStack.Navigator screenOptions={{ headerShown: false }} >
         <AppStack.Screen name="Login" component={Login} />
         <AppStack.Screen name="home"  component={Home} />

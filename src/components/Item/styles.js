@@ -7,4 +7,14 @@ export default StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: Constants.statusBarHeight + 20,
   },
+  item: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom:6
+  },
+  esquerda: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    marginBottom:4
+  }
 })

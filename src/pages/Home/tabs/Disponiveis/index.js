@@ -23,6 +23,7 @@ export default function Disponiveis() {
           <FlatList
           data={pedidos}
           renderItem= {pedido => {
+            console.log(pedido)
             return (<Pedido pedido={pedido.item} />)
             }}
           keyExtractor={(pedido)=>pedido.pedidoId}

@@ -42,17 +42,25 @@ export default function Disponiveis() {
     try {
       setPedidos(await pedidosFechados(token))
     }catch (error) {
-      console.log(error)
+      console.log(error)        
     }
   }
   useEffect( () => {
-    catchPedidos()
-    setInterval(catchPedidos, 60000)
+    setLoading(true)    
+    try {
+      catchPedidos()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+    setInterval(catchPedidos, 1000)
     }, [])
   return (
       <View style={styles.container}>
         { pedidos !== null &&
           <FlatList
+          showsVerticalScrollIndicator={false}
           data={pedidos}
           renderItem= {pedido => {
             return (<Pedido pedido={pedido.item} confirmar={ConfirmarPedido} rejeitar={RejeitarPedido} token={token} loading={loading} />)

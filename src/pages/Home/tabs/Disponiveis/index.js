@@ -25,7 +25,7 @@ export default function Disponiveis() {
     }
   }
   async function RejeitarPedido(token, pedidoId) {
-    setLoading(true)
+    setLoading(true) 
     try {
       const response = await rejeitarPedido(token, pedidoId)
       if (response.status === 200) {
@@ -38,15 +38,16 @@ export default function Disponiveis() {
       setLoading(false)
     }
   }
-  useEffect( () => {
-    async function catchPedidos () {
-      try {
-        setPedidos(await pedidosFechados(token))        
-      }catch (error) {
-        console.log(error)
-      }
+  async function catchPedidos () {
+    try {
+      setPedidos(await pedidosFechados(token))        
+    }catch (error) {
+      console.log(error)
     }
+  }
+  useEffect( () => {
     catchPedidos()
+    setInterval(catchPedidos, 60000)
     }, [])
   return (
       <View style={styles.container}>

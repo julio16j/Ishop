@@ -38,14 +38,17 @@ export default function Disponiveis() {
       setLoading(false)
     }
   }
-  useEffect( () => {
-    async function catchPedidos () {
-      try {
-        setPedidos(await pedidosFechados(token))        
-      }catch (error) {
-        console.log(error)
-      }
+  async function catchPedidos () {
+    try {
+      setLoading(true)
+      setPedidos(await pedidosFechados(token))        
+    }catch (error) {
+      console.log(error)
+    }finally {
+      setLoading(false)
     }
+  }
+  useEffect( () => {
     catchPedidos()
     }, [])
   return (

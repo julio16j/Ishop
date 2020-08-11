@@ -17,26 +17,26 @@ export default function Pedido({pedido, confirmar, rejeitar, token, loading = fa
         textContent={'Loading...'}
         textStyle={{color: '#FFF'}}
       />
-      <View style={styles.header}>
-        <Text style={styles.nome}>{pedido.nome}</Text>
-        <View style={styles.info}>
-          <Text style={styles.textInfo}>{(pedido.bairro || 'Bessa, ')}</Text>
-          <Text style={styles.textInfo}>{( pedido.cep || '58036-385' )}</Text>
+        <View style={styles.header}>
+          <Text style={styles.nome}>{pedido.nome}</Text>
+          <View style={styles.info}>
+            <Text style={styles.textInfo}>{(pedido.bairro || 'Bessa, ')}</Text>
+            <Text style={styles.textInfo}>{( pedido.cep || '58036-385' )}</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.items}>
-        <FlatList
-          data={pedido.itens}
-          renderItem= {item => (
-              <Item item={item.item} />
-          )}
-          keyExtractor={(item)=>item.pedidoItemId}
-        />
-      </View>
-      <View style={styles.total}>
-            <Text style={{fontWeight:"bold", fontSize:18, color:"#BFBFBF"}}>R$</Text>
-            <Text style={{fontSize:18, color:"#BFBFBF"}}>{total}</Text>
-      </View>
+        <View style={styles.items}>
+          <FlatList
+            data={pedido.itens}
+            renderItem= {item => (
+                <Item item={item.item} />
+            )}
+            keyExtractor={(item)=>item.pedidoItemId}
+          />
+        </View>
+        <View style={styles.total}>
+              <Text style={{fontWeight:"bold", fontSize:18, color:"#BFBFBF"}}>R$</Text>
+              <Text style={{fontSize:18, color:"#BFBFBF"}}>{total}</Text>
+        </View>
       {
         pedido.situacao===2 &&
         <View style={styles.options}>

@@ -6,7 +6,7 @@ import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
 import {successMessage, errorMessage} from '../../../../services/alerts'
 export default function Disponiveis() {
-  const [pedidos, setPedidos] = useState(null)
+  const [pedidos, setPedidos] = useState([])
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
   async function ConfirmarPedido(token, pedidoId) {
@@ -53,7 +53,9 @@ export default function Disponiveis() {
     }, [])
   return (
       <View style={styles.container}>
-        { pedidos !== null &&
+        {
+          
+          pedidos.length > 0 ?
           <FlatList
           data={pedidos}
           renderItem= {pedido => {
@@ -61,7 +63,14 @@ export default function Disponiveis() {
           }}
           keyExtractor={(pedido)=>pedido.pedidoId}
           />
+          :
+          <Text style={{fontSize: 19, fontWeight: "bold", alignSelf: "center", position:"absolute", marginTop: 250}}>
+              Nada para mostrar aqui :P
+          </Text>
         }
+        {/* { pedidos !== null &&
+          
+        } */}
     </View>
   )
 }

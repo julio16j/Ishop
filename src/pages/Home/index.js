@@ -15,7 +15,10 @@ import Perfil from "./tabs/Perfil"
 export default function Home() {
   const Tab = createBottomTabNavigator()
   return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBarOptions={{
+      activeTintColor: '#F2CB07',
+      inactiveTintColor: 'gray',
+    }}>
       <Tab.Screen name="disponiveis" component={Disponiveis} options={{
           tabBarLabel: 'Disponiveis',
           tabBarIcon: ({ color, size }) => (

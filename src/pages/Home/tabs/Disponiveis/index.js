@@ -70,8 +70,8 @@ export default function Disponiveis() {
           keyExtractor={(pedido)=>pedido.pedidoId}
           />
           :
-          <Text style={{fontSize: 19, fontWeight: "bold", alignSelf: "center", position:"absolute", marginTop: 250}}>
-              Nada para mostrar aqui :P
+          <Text style={{fontSize: 19, fontWeight: "bold", alignSelf: "center", marginBottom:100}}>
+              Estamos sem pedidos no momento!
           </Text>
         }
         {/* { pedidos !== null &&

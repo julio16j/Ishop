@@ -25,7 +25,7 @@ export default function Disponiveis() {
     }
   }
   async function RejeitarPedido(token, pedidoId) {
-    setLoading(true)
+    setLoading(true) 
     try {
       const response = await rejeitarPedido(token, pedidoId)
       if (response.status === 200) {
@@ -40,16 +40,21 @@ export default function Disponiveis() {
   }
   async function catchPedidos () {
     try {
-      setLoading(true)
-      setPedidos(await pedidosFechados(token))        
+      setPedidos(await pedidosFechados(token))
     }catch (error) {
-      console.log(error)
-    }finally {
-      setLoading(false)
+      console.log(error)        
     }
   }
   useEffect( () => {
-    catchPedidos()
+    setLoading(true)    
+    try {
+      catchPedidos()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+    setInterval(catchPedidos, 1000)
     }, [])
   return (
       <View style={styles.container}>
@@ -57,6 +62,7 @@ export default function Disponiveis() {
           
           pedidos.length > 0 ?
           <FlatList
+          showsVerticalScrollIndicator={false}
           data={pedidos}
           renderItem= {pedido => {
             return (<Pedido pedido={pedido.item} confirmar={ConfirmarPedido} rejeitar={RejeitarPedido} token={token} loading={loading} />)

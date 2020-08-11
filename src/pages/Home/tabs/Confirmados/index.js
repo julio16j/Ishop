@@ -10,26 +10,29 @@ export default function Disponiveis() {
   const [loading, setLoading] = useState(false)
 
   async function catchPedidos () {
-    try {
-      setLoading(true)
+    try {      
       setPedidos(await pedidosConfirmados(token))        
     }catch (error) {
       console.log(error)
-    }finally {
-      setLoading(false)
     }
   }
   useEffect( () => {
-    catchPedidos()
+    setLoading(true)    
+    try {
+      catchPedidos()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
+    setInterval(catchPedidos, 1000)
     }, [])
-  
-  
-  
   return (
       <View style={styles.container}> 
         
         { pedidos.length > 0 ?
             <FlatList
+            showsVerticalScrollIndicator= {false}
             data={pedidos}
             renderItem= {pedido => {
               return (<Pedido pedido={pedido.item} token={token} />)
@@ -37,9 +40,9 @@ export default function Disponiveis() {
             keyExtractor={(pedido)=>pedido.pedidoId}
             />
           :
-            <Text style={{fontSize: 19, fontWeight: "bold", alignSelf: "center", position:"absolute", marginTop: 250}}>
-                Nada para mostrar aqui :P
-            </Text>
+          <Text style={{fontSize: 19, fontWeight: "bold", alignSelf: "center", marginBottom:100}}>
+          Não temos pedidos confirmados.
+          </Text>
         }
     </View>
   )

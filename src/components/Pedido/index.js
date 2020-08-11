@@ -26,6 +26,7 @@ export default function Pedido({pedido, confirmar, rejeitar, token, loading = fa
         </View>
         <View style={styles.items}>
           <FlatList
+            showsVerticalScrollIndicator= {false}
             data={pedido.itens}
             renderItem= {item => (
                 <Item item={item.item} />

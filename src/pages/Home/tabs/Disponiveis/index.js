@@ -4,11 +4,13 @@ import styles from './styles'
 import {pedidosFechados, confirmarPedido, rejeitarPedido} from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
+import PedidoDetail from '../../../../components/modal'
 import {successMessage, errorMessage} from '../../../../services/alerts'
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
+  const [visible, setVisible] = useState(false)
   async function ConfirmarPedido(token, pedidoId) {
     setLoading(true)
     try {
@@ -56,16 +58,25 @@ export default function Disponiveis() {
     }
     setInterval(catchPedidos, 1000)
     }, [])
+
+  function detalhar() {
+    setVisible(true)
+  }
   return (
       <View style={styles.container}>
         {
+          visible!==true &&
           
+          <PedidoDetail visible={visible}> </PedidoDetail>
+        }
+        
+        {
           pedidos.length > 0 ?
           <FlatList
           showsVerticalScrollIndicator={false}
           data={pedidos}
           renderItem= {pedido => {
-            return (<Pedido pedido={pedido.item} confirmar={ConfirmarPedido} rejeitar={RejeitarPedido} token={token} loading={loading} />)
+            return (<Pedido pedido={pedido.item} confirmar={ConfirmarPedido} rejeitar={RejeitarPedido} token={token} loading={loading} detalhar={detalhar} />)
           }}
           keyExtractor={(pedido)=>pedido.pedidoId}
           />

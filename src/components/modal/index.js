@@ -8,7 +8,7 @@ import {
   View
 } from "react-native";
 import styles from './styles'
-export default function PedidoDetail({visible}) {
+export default function PedidoDetail({visible, fechar, pedidoAtual}) {
     return (
         <View style={styles.centeredView}>
         <Modal
@@ -21,12 +21,12 @@ export default function PedidoDetail({visible}) {
         >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
+            <Text style={styles.modalText}>{pedidoAtual.pedidoId}</Text>
 
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
-                  setModalVisible(!modalVisible);
+                  fechar()
                 }}
                 >
               <Text style={styles.textStyle}>Hide Modal</Text>

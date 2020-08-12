@@ -8,6 +8,7 @@ import PedidoDetail from '../../../../components/modal'
 import { TapGestureHandler } from 'react-native-gesture-handler'
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
+  const [pedidoAtual,setPedidoAtual] = useState()
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -32,13 +33,20 @@ export default function Disponiveis() {
     setInterval(catchPedidos, 1000)
     }, [])
 
-  function detalhar() {
+  function detalhar(pedido) {
+    setPedidoAtual(pedido)
     setVisible(true)
+    
+  }
+  function fechar() {
+    setVisible(false)
   }
   return (
       <View style={styles.container}> 
-      {visible !== true && 
-      <PedidoDetail visible={visible}> </PedidoDetail>}
+      
+      {visible === true && 
+      <PedidoDetail visible={visible} fechar={fechar} pedidoAtual={pedidoAtual}> </PedidoDetail> 
+      }
        
         { pedidos.length > 0 ?
             <FlatList

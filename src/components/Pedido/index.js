@@ -17,7 +17,7 @@ export default function Pedido({pedido, confirmar, rejeitar, token, loading = fa
         textContent={'Loading...'}
         textStyle={{color: '#FFF'}}
         />
-        <TouchableOpacity onPress={()=>detalhar()}>        
+        <TouchableOpacity onPress={()=>detalhar(pedido)}>        
           <View style={styles.header}>
             <Text style={styles.nome}>{pedido.nome}</Text>
             <View style={styles.info}>

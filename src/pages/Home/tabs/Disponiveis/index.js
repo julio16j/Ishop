@@ -6,6 +6,7 @@ import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
 import PedidoDetail from '../../../../components/modal'
 import {successMessage, errorMessage} from '../../../../services/alerts'
+var listaPedidos = []
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
   const [pedidoAtual,setPedidoAtual] = useState()
@@ -43,11 +44,42 @@ export default function Disponiveis() {
   }
   async function catchPedidos () {
     try {
-      setPedidos(await pedidosFechados(token))
+      const pedidosDisponiveis = await pedidosFechados(token)
+      if (novosPedidos(pedidosDisponiveis)) {
+        atualizarPedidos(pedidosDisponiveis)
+      }
     }catch (error) {
-      console.log(error)        
+      console.log(error)
     }
   }
+  
+  async function atualizarPedidos (pedidos) {
+    const pedidosOrdenados = pedidos.sort((a, b) => new Date(b.emissao) - new Date(a.emissao))
+    setPedidoAtual(pedidosOrdenados[0])
+    setVisible(true)
+    await setPedidos(pedidosOrdenados)
+    listaPedidos = pedidosOrdenados
+  }
+
+  function novosPedidos (pedidosNovos) {
+    let pedidosDiferentes = pedidosNovos.filter(pedido => {
+      const bool = !isOnList(listaPedidos, pedido, 'pedidoId')
+      return bool
+    })
+    const retorno = pedidosDiferentes.length > 0 ? true : false
+    return retorno
+  }
+
+  function isOnList(lista, item, id) {
+    console.log(lista)
+    console.log(item)
+    let isOn = false
+    lista.forEach(ele => {
+      if (ele[id] == item[id]) isOn = true
+    })
+    return isOn
+  }
+
   useEffect( () => {
     setLoading(true)    
     try {

@@ -44,13 +44,13 @@ export default function Pedido({pedido, confirmar, rejeitar, token, loading = fa
         pedido.situacao===2 &&
         <View style={styles.options}>
           <View style={{alignItems: "center"}}>
-            <TouchableOpacity onPress={() => confirmar(token, pedido.pedidoId)}>
-              <Text style={styles.textOption}>Confirmar</Text>
+            <TouchableOpacity onPress={() => rejeitar(token, pedido.pedidoId)}>
+              <Text style={styles.textOption}>Cancelar</Text>
             </TouchableOpacity>
           </View>
           <View style={{alignItems: "center"}}>
-          <TouchableOpacity onPress={() => rejeitar(token, pedido.pedidoId)}>
-              <Text style={styles.textOption}>Cancelar</Text>
+            <TouchableOpacity onPress={() => confirmar(token, pedido.pedidoId)}>
+              <Text style={styles.textOption}>Confirmar</Text>
             </TouchableOpacity>
           </View>
         </View> 

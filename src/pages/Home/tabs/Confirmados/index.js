@@ -4,7 +4,7 @@ import styles from './styles'
 import {pedidosConfirmados} from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
-import PedidoDetail from '../../../../components/modal'
+import PedidoDetail from '../../../../components/DisponivelModal'
 import { TapGestureHandler } from 'react-native-gesture-handler'
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])

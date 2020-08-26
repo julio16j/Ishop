@@ -71,8 +71,6 @@ export default function Disponiveis() {
   }
 
   function isOnList(lista, item, id) {
-    console.log(lista)
-    console.log(item)
     let isOn = false
     lista.forEach(ele => {
       if (ele[id] == item[id]) isOn = true

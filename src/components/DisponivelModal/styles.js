@@ -35,6 +35,7 @@ export default StyleSheet.create({
       },
       modalText: {
         marginBottom: 15,
-        textAlign: "center"
+        textAlign: "center",
+        fontWeight: "bold"
       }
     });

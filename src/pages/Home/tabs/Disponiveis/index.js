@@ -4,7 +4,7 @@ import styles from './styles'
 import {pedidosFechados, confirmarPedido, rejeitarPedido} from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
-import PedidoDetail from '../../../../components/modal'
+import PedidoDetail from '../../../../components/DisponivelModal'
 import {successMessage, errorMessage} from '../../../../services/alerts'
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])

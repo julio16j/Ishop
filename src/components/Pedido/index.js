@@ -3,7 +3,7 @@ import {View, Text, FlatList, TouchableOpacity} from 'react-native'
 import styles from './styles'
 import Item from '../Item'
 import Spinner from 'react-native-loading-spinner-overlay'
-import PedidoDetail from '../modal'
+import PedidoDetail from '../DisponivelModal'
 export default function Pedido({pedido, confirmar, rejeitar, token, loading = false, detalhar}) {  
   const total = useMemo(() => {
     return pedido.itens.reduce((acumulador, atual) => {

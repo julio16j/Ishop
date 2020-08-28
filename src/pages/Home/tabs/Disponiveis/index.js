@@ -1,15 +1,16 @@
-import React, {useState, useEffect} from 'react'
-import {View, Text, TouchableWithoutFeedbackComponent, FlatList} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, TouchableWithoutFeedbackComponent, FlatList } from 'react-native'
 import styles from './styles'
-import {pedidosFechados, confirmarPedido, rejeitarPedido} from '../../../../services/pedido'
+import { pedidosFechados, confirmarPedido, rejeitarPedido } from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
 import PedidoDetail from '../../../../components/DisponivelModal'
-import {successMessage, errorMessage} from '../../../../services/alerts'
+import { successMessage, errorMessage } from '../../../../services/alerts'
+import RenderCondicional from '../../../../components/RenderCondicional'
 var listaPedidos = []
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
-  const [pedidoAtual,setPedidoAtual] = useState()
+  const [pedidoAtual, setPedidoAtual] = useState()
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -29,7 +30,7 @@ export default function Disponiveis() {
     }
   }
   async function RejeitarPedido(token, pedidoId) {
-    setLoading(true) 
+    setLoading(true)
     try {
       const response = await rejeitarPedido(token, pedidoId)
       if (response.status === 200) {
@@ -42,18 +43,18 @@ export default function Disponiveis() {
       setLoading(false)
     }
   }
-  async function catchPedidos () {
+  async function catchPedidos() {
     try {
       const pedidosDisponiveis = await pedidosFechados(token)
       if (novosPedidos(pedidosDisponiveis)) {
         atualizarPedidos(pedidosDisponiveis)
       }
-    }catch (error) {
+    } catch (error) {
       console.log(error)
     }
   }
-  
-  async function atualizarPedidos (pedidos) {
+
+  async function atualizarPedidos(pedidos) {
     const pedidosOrdenados = pedidos.sort((a, b) => new Date(b.emissao) - new Date(a.emissao))
     setPedidoAtual(pedidosOrdenados[0])
     setVisible(true)
@@ -61,7 +62,7 @@ export default function Disponiveis() {
     listaPedidos = pedidosOrdenados
   }
 
-  function novosPedidos (pedidosNovos) {
+  function novosPedidos(pedidosNovos) {
     let pedidosDiferentes = pedidosNovos.filter(pedido => {
       const bool = !isOnList(listaPedidos, pedido, 'pedidoId')
       return bool
@@ -78,8 +79,8 @@ export default function Disponiveis() {
     return isOn
   }
 
-  useEffect( () => {
-    setLoading(true)    
+  useEffect(() => {
+    setLoading(true)
     try {
       catchPedidos()
     } catch (error) {
@@ -88,38 +89,41 @@ export default function Disponiveis() {
       setLoading(false)
     }
     setInterval(catchPedidos, 1000)
-    }, [])
+  }, [])
 
   function detalhar(pedido) {
     setPedidoAtual(pedido)
     setVisible(true)
-    
+
   }
   function fechar() {
     setVisible(false)
   }
   return (
-      <View style={styles.container}>
-        {
-          visible===true &&
-          <PedidoDetail visible={visible} fechar={fechar} pedidoAtual={pedidoAtual}> </PedidoDetail>
-        }
-        
-        {
-          pedidos.length > 0 ?
+    <View style={styles.container}>
+      <RenderCondicional
+        condicao={visible === true}
+        funcao1={<PedidoDetail visible={visible} fechar={fechar} pedidoAtual={pedidoAtual}> </PedidoDetail>}
+      />
+
+      <RenderCondicional
+        condicao={pedidos.length > 0}
+        funcao1={
           <FlatList
-          showsVerticalScrollIndicator={false}
-          data={pedidos}
-          renderItem= {pedido => {
-            return (<Pedido pedido={pedido.item} confirmar={ConfirmarPedido} rejeitar={RejeitarPedido} token={token} loading={loading} detalhar={detalhar} />)
-          }}
-          keyExtractor={(pedido)=>pedido.pedidoId}
+            showsVerticalScrollIndicator={false}
+            data={pedidos}
+            renderItem={pedido => {
+              return (<Pedido pedido={pedido.item} confirmar={ConfirmarPedido} rejeitar={RejeitarPedido} token={token} loading={loading} detalhar={detalhar} />)
+            }}
+            keyExtractor={(pedido) => pedido.pedidoId}
           />
-          :
-          <Text style={{fontSize: 19, fontWeight: "bold", alignSelf: "center", marginBottom:100}}>
-              Estamos sem pedidos no momento!
+        }
+        funcao2={
+          <Text style={{ fontSize: 19, fontWeight: "bold", alignSelf: "center", marginBottom: 100 }}>
+            Estamos sem pedidos no momento!
           </Text>
         }
+      />
     </View>
   )
 }

@@ -30,14 +30,16 @@ export default function PedidoDetail({visible, fechar, pedidoAtual}) {
         >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {console.log(pedidoAtual)}
-            {console.log(pagamento)}
             {
             pedidoAtual.lojaNome ? 
             <Text style={styles.modalText}>Nome da Loja: {pedidoAtual.lojaNome}</Text>: 
             <Text style={styles.modalText}>Nome da Loja: Carrefour</Text>
             }
-
+            <Japinha condicao={true} funcao={() => (
+              <View>
+                <Text style={styles.modalText}>Nome da Loja: {pedidoAtual.lojaNome}</Text>
+              </View>  
+            )} />
             {
             pagamento ? 
             <Text style={styles.modalText}>Valor: {pagamento.valor}</Text> :

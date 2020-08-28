@@ -39,19 +39,16 @@ export default function PedidoDetail({visible, fechar, pedidoAtual}) {
             }
 
             {
-            pagamento.valor ? 
+            pagamento ? 
             <Text style={styles.modalText}>Valor: {pagamento.valor}</Text> :
             <Text style={styles.modalText}>Valor: 0</Text>
             }
-              
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
               onPress={() => {
                   fechar()
                 }}
-                
                 >
-                  
               <Text style={styles.textStyle}>Fechar</Text>
             </TouchableHighlight>
           </View>

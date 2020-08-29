@@ -6,7 +6,6 @@ export default StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     paddingTop: Constants.statusBarHeight + 20,
-    backgroundColor: "#F2CB07",
-    justifyContent: "center"
+    backgroundColor: "#F2CB07"
   },
 })

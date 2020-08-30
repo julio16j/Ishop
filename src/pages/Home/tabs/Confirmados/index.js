@@ -4,12 +4,12 @@ import styles from './styles'
 import { pedidosConfirmados } from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
-import PedidoDetail from '../../../../components/DisponivelModal'
-import { TapGestureHandler } from 'react-native-gesture-handler'
 import RenderCondicional from '../../../../components/RenderCondicional'
+import { useNavigation } from '@react-navigation/native'
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
   const [pedidoAtual, setPedidoAtual] = useState()
+  const navigation = useNavigation()
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
@@ -36,19 +36,14 @@ export default function Disponiveis() {
 
   function detalhar(pedido) {
     setPedidoAtual(pedido)
-    setVisible(true)
-
+    navigation.navigate('pedidoDetail', {pedido})
   }
+
   function fechar() {
-    setVisible(false)
+    navigation.navigate('home')
   }
   return (
     <View style={styles.container}>
-
-      <RenderCondicional
-        condicao={visible}
-        funcao1={<PedidoDetail visible={visible} fechar={fechar} pedidoAtual={pedidoAtual}> </PedidoDetail>}
-      />
 
       <RenderCondicional
         condicao={pedidos.length > 0}

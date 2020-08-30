@@ -7,14 +7,6 @@ export default StyleSheet.create({
     marginTop: 22,
   },
 
-  modalView: {
-    padding: 10,
-    backgroundColor: "#dddddd",
-    borderRadius: 8,
-    alignSelf: "stretch",
-    elevation: 5
-  },
-
   header: {
     alignItems: "flex-end",
     paddingRight: 20,

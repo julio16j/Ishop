@@ -4,9 +4,9 @@ import styles from './styles'
 import { pedidosFechados, confirmarPedido, rejeitarPedido } from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
-import PedidoDetail from '../../../../components/DisponivelModal'
 import { successMessage, errorMessage } from '../../../../services/alerts'
 import RenderCondicional from '../../../../components/RenderCondicional'
+import { useNavigation } from '@react-navigation/native'
 var listaPedidos = []
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
@@ -14,6 +14,11 @@ export default function Disponiveis() {
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
+  const navigation = useNavigation()
+  function navigateToProdutos () {
+    setVisible(false)
+    navigation.navigate('produtos')
+  }
   async function ConfirmarPedido(token, pedidoId) {
     setLoading(true)
     try {
@@ -93,18 +98,14 @@ export default function Disponiveis() {
 
   function detalhar(pedido) {
     setPedidoAtual(pedido)
-    setVisible(true)
-
+    navigation.navigate('pedidoDetail', {pedido})
   }
+
   function fechar() {
-    setVisible(false)
+    navigation.navigate('home')
   }
   return (
     <View style={styles.container}>
-      <RenderCondicional
-        condicao={visible === true}
-        funcao1={<PedidoDetail visible={visible} fechar={fechar} pedidoAtual={pedidoAtual}> </PedidoDetail>}
-      />
 
       <RenderCondicional
         condicao={pedidos.length > 0}

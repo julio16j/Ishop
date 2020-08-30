@@ -3,7 +3,6 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Item from '../Item';
-import PedidoDetail from '../DisponivelModal';
 import RenderCondicional from '../RenderCondicional';
 
 import styles from './styles';

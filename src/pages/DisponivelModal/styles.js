@@ -8,14 +8,16 @@ export default StyleSheet.create({
   },
 
   header: {
-    alignItems: "flex-end",
-    paddingRight: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingRight: 10,
   },
 
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#999999",
+    color: "#000000",
     marginVertical: 20,
     marginLeft: 10,
   },
@@ -102,23 +104,28 @@ export default StyleSheet.create({
     color: "green",
   },
 
-  /*modalContent: {
+  buttonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#ffffff",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    marginTop: 20,
+    marginBottom: 50
   },
 
-  modalText: {
-    marginBottom: 15,
-    fontWeight: "bold"
-  }*/
+  buttonDisponivel: {
+    width: 150,
+    padding: 20,
+    borderRadius: 14,
+  },
 
   button: {
     backgroundColor: "#C40233",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
-    margin: 10,
+    marginTop: 30,
+    marginBottom: 20,
+    marginHorizontal: 10,
   },
 
   buttonText: {

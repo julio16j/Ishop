@@ -1,10 +1,13 @@
-import React, { useMemo, useState } from 'react'
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import styles from './styles'
-import Item from '../Item'
-import Spinner from 'react-native-loading-spinner-overlay'
-import PedidoDetail from '../DisponivelModal'
-import RenderCondicional from '../RenderCondicional'
+import React, { useMemo, useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
+
+import Item from '../Item';
+import PedidoDetail from '../DisponivelModal';
+import RenderCondicional from '../RenderCondicional';
+
+import styles from './styles';
+
 export default function Pedido({ pedido, confirmar, rejeitar, token, loading = false, detalhar }) {
   const total = useMemo(() => {
     return pedido.itens.reduce((acumulador, atual) => {

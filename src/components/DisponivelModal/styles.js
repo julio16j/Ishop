@@ -117,6 +117,7 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     marginTop: 20,
+    marginBottom: 50
   },
 
   buttonDisponivel: {

@@ -7,16 +7,17 @@ import {
   TouchableHighlight,
   View,
   Image,
-  CheckBox
+  CheckBox,
+  TouchableOpacity,
 } from "react-native";
-import { BorderlessButton, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
+import { BorderlessButton, ScrollView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 import RenderCondicional from "../RenderCondicional";
 
 import styles from './styles';
 
-export default function PedidoDetail({ visible, fechar, pedidoAtual }) {
+export default function PedidoDetail({ visible, fechar, pedidoAtual, token, confirmar, rejeitar }) {
   const [itens, setItens] = useState([0])
   const [pagamento, setPagamento] = useState([0])
   const [registros, setRegistros] = useState()
@@ -31,7 +32,7 @@ export default function PedidoDetail({ visible, fechar, pedidoAtual }) {
     <View style={styles.centeredView}>
       <Modal
         animationType="slide"
-        transparent={true}
+        transparent={false}
         visible={visible}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
@@ -42,9 +43,9 @@ export default function PedidoDetail({ visible, fechar, pedidoAtual }) {
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles.header}>
                 <Text style={styles.cardTitle}>{pedidoAtual.nome}</Text>
-                <BorderlessButton onPress={() => { fechar() }}>
+                <TouchableOpacity onPress={() => fechar()}>
                   <Ionicons name="ios-close" size={40} color="white" />
-                </BorderlessButton>
+                </TouchableOpacity>
               </View>
 
               <Text style={styles.cardTitle}>Endereço de entrega</Text>
@@ -109,27 +110,24 @@ export default function PedidoDetail({ visible, fechar, pedidoAtual }) {
               </View>
 
               <RenderCondicional
-                condicao={pedidoAtual.situacao >= 2}
+                condicao={pedidoAtual.situacao <= 2}
                 funcao1={
                   <View style={styles.buttonsContainer}>
-                    <TouchableOpacity style={{ ...styles.buttonDisponivel, backgroundColor: "green" }}>
+                    <TouchableOpacity
+                      style={{ ...styles.buttonDisponivel, backgroundColor: "green" }}
+                      onPress={() => confirmar(token, pedidoAtual.pedidoId)}
+                    >
                       <Text style={styles.buttonText}>Confirmar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ ...styles.buttonDisponivel, backgroundColor: "red" }}>
+                    <TouchableOpacity
+                      style={{ ...styles.buttonDisponivel, backgroundColor: "red" }}
+                      onPress={() => rejeitar(token, pedidoAtual.pedidoId)}
+                    >
                       <Text style={styles.buttonText}>Rejeitar</Text>
                     </TouchableOpacity>
                   </View>
                 }
               />
-
-              <TouchableHighlight
-                style={{ ...styles.button, marginBottom: 50 }}
-                onPress={() => {
-                  fechar()
-                }}
-              >
-                <Text style={styles.buttonText}>Fechar</Text>
-              </TouchableHighlight>
             </ScrollView>
 
             <View style={styles.footer}>

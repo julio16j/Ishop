@@ -103,7 +103,7 @@ export default function Disponiveis() {
     <View style={styles.container}>
       <RenderCondicional
         condicao={visible === true}
-        funcao1={<PedidoDetail visible={visible} fechar={fechar} pedidoAtual={pedidoAtual}> </PedidoDetail>}
+        funcao1={<PedidoDetail visible={visible} fechar={fechar} pedidoAtual={pedidoAtual} token={token} confirmar={confirmarPedido} rejeitar={rejeitarPedido}> </PedidoDetail>}
       />
 
       <RenderCondicional

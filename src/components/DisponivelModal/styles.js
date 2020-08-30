@@ -20,33 +20,44 @@ export default StyleSheet.create({
     paddingRight: 20,
   },
 
-  itens: {
-    maxHeight: 350,
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#999999",
+    marginVertical: 20,
+    marginLeft: 10,
+  },
+
+  card: {
+    backgroundColor: "#ffffff",
+    padding: 15,
+  },
+
+  cardText: {
+    fontSize: 18,
   },
 
   item: {
     backgroundColor: "#ffffff",
     padding: 10,
     flexDirection: "row",
-    justifyContent: "space-between"
   },
 
   itemImg: {
     height: 100,
     width: 100,
-    marginRight: 10,
+    backgroundColor: "#333333",
   },
 
-  itemText: {
-    width: 300,
-    fontSize: 18,
+  itemFooter: {
+    flex: 1,
+    marginLeft: 10,
   },
-
 
   itemAmount: {
     fontSize: 18,
     bottom: 0,
-    left: 10,
+    left: 0,
     position: "absolute",
   },
 
@@ -54,23 +65,13 @@ export default StyleSheet.create({
     fontSize: 18,
     color: "green",
     bottom: 0,
-    right: 60,
+    right: 10,
     position: "absolute",
-  },
-
-  addressView: {
-    backgroundColor: "#ffffff",
-    padding: 10,
   },
 
   addressText: {
     fontSize: 18,
-    margin: 10,
-  },
-
-  addressTextInfo: {
-    fontSize: 18,
-    margin: 10,
+    marginVertical: 10,
     color: "#999999",
   },
 
@@ -80,23 +81,33 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 5,
-    paddingRight: 5,
-  },
-
-  payView: {
-    backgroundColor: "#ffffff",
-    marginTop: 20,
-    padding: 10,
+    paddingVertical: 20,
+    paddingRight: 10,
   },
 
   payForm: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    margin: 10,
-    borderTopWidth: 1,
-    paddingTop: 10,
+    padding: 10,
+  },
+
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 10,
+    backgroundColor: "#ffffff",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+
+  totalValue: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "green",
   },
 
   /*modalContent: {
@@ -105,8 +116,6 @@ export default StyleSheet.create({
     backgroundColor: "#ffffff",
   },
 
-  
-  
   modalText: {
     marginBottom: 15,
     fontWeight: "bold"

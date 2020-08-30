@@ -48,55 +48,68 @@ export default function PedidoDetail({ visible, fechar, pedidoAtual }) {
             <ScrollView>
               <View style={styles.header}>
                 <BorderlessButton onPress={() => { fechar() }}>
-                  <Ionicons name="ios-close" size={50} color="red" />
+                  <Ionicons name="ios-close" size={40} color="red" />
                 </BorderlessButton>
               </View>
 
-              <ScrollView style={styles.itens}>
-                <View style={styles.item}>
-                  <Image source={Leitinho} style={styles.itemImg} />
-                  <View style={styles.itemFooter}>
-                    <Text style={styles.itemText}>Leite integral Piracanjuba 1L</Text>
-                    <Text style={styles.itemAmount}>-  2  +</Text>
-                    <Text style={styles.itemCost}>R$ 7,60</Text>
+              <Text style={styles.cardTitle}>Meus itens</Text>
+              {pedidoAtual.itens.map((item) => {
+                return (
+                  <View style={styles.card, { padding: 0 }}>
+                    <View style={styles.item}>
+                      <RenderCondicional
+                        condicao={item.imagemId}
+                        funcao1={<Image source={item.imagemId} style={styles.itemImg} />}
+                        funcao2={<View style={styles.itemImg} />}
+                      />
+                      <View style={styles.itemFooter}>
+                        <Text style={styles.cardText}>{item.titulo}</Text>
+                        <Text style={styles.itemAmount}>-  {item.quantidade}  +</Text>
+                        <Text style={styles.itemCost}>
+                          R$ {item.valorUnitario * item.quantidade}
+                        </Text>
+                      </View>
+                    </View>
                   </View>
-                </View>
+                )
+              })}
 
-                <View style={styles.item}>
-                  <Image source={Leitinho} style={styles.itemImg} />
-                  <View style={styles.itemFooter}>
-                    <Text style={styles.itemText}>Leite integral Piracanjuba 1L</Text>
-                    <Text style={styles.itemAmount}>-  2  +</Text>
-                    <Text style={styles.itemCost}>R$ 7,60</Text>
-                  </View>
-                </View>
-              </ScrollView>
 
               <TouchableHighlight style={{ ...styles.button, backgroundColor: "orange" }}>
                 <Text style={styles.buttonText}>Adicionar</Text>
               </TouchableHighlight>
 
-              <View style={styles.addressView}>
-                <Text style={styles.addressText}>Endereço :</Text>
-                <Text style={styles.addressTextInfo}>R. Pataro Machado, 310</Text>
-                <Text style={styles.addressTextInfo}>Lauro de Freitas / BA</Text>
-                <Text style={styles.addressTextInfo}>Cond. Torres do Atlântico, Edif. Stella Maris, Ap 505</Text>
+              <Text style={styles.cardTitle}>Endereço de entrega</Text>
+              <View style={styles.card}>
+                <Text style={styles.cardText}>Endereço :</Text>
+                <RenderCondicional
+                  condicao={pedidoAtual.logradouro}
+                  funcao1={
+                    <View>
+                      <Text style={styles.addressText}>{pedidoAtual.logradouro}, {pedidoAtual.numero}</Text>
+                      <Text style={styles.addressText}>{pedidoAtual.cidadeId} / {pedidoAtual.estado}</Text>
+                      <Text style={styles.addressText}>{pedidoAtual.compl}</Text>
+                      <View style={styles.addressFooter}>
+                        <Text style={styles.cardText}>{pedidoAtual.referencia}</Text>
+                      </View>
+                    </View>
+                  }
+                  funcao2={<Text style={styles.addressText}>Não informado</Text>}
+                />
                 <View style={styles.addressFooter}>
-                  <Text style={styles.addressText}>Próximo à UNIME</Text>
-                </View>
-                <View style={styles.addressFooter}>
-                  <Text style={styles.addressText}>Vou retirar na loja</Text>
+                  <Text style={styles.cardText}>Vou retirar na loja</Text>
                   <CheckBox />
                 </View>
               </View>
 
-              <View style={styles.payView}>
+              <Text style={styles.cardTitle}>Forma de pagamento</Text>
+              <View style={styles.card}>
                 <View style={styles.payForm}>
-                  <Text>Cartão de crédito</Text>
+                  <Text style={styles.cardText}>Cartão de crédito</Text>
                   <Feather name="credit-card" size={30} />
                 </View>
                 <View style={styles.payForm}>
-                  <Text>Dinheiro</Text>
+                  <Text style={styles.cardText}>Dinheiro</Text>
                   <FontAwesome5 name="money-bill-wave" size={30} color="green" />
                 </View>
               </View>
@@ -111,6 +124,11 @@ export default function PedidoDetail({ visible, fechar, pedidoAtual }) {
               </TouchableHighlight>
 
             </ScrollView>
+
+            <View style={styles.footer}>
+              <Text style={styles.cardText}>Total :</Text>
+              <Text style={styles.totalValue}>R$ {pedidoAtual.pagtos[0].valor}</Text>
+            </View>
 
             {/*<RenderCondicional
               condicao={pedidoAtual.lojaNome}

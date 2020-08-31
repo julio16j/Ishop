@@ -1,11 +1,11 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import FlashMessage from "react-native-flash-message";
+import FlashMessage from "react-native-flash-message"
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Cadastrar from './pages/Cadastrar'
-import PedidoDetail from './pages/DisponivelModal'
+import PedidoDetail from './pages/PedidoDetail'
 import Produtos from './pages/Produtos'
 import Header from "./components/header"
 const AppStack = createStackNavigator()
@@ -13,7 +13,7 @@ const AppStack = createStackNavigator()
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Header />   
+      <Header />
       <AppStack.Navigator screenOptions={{ headerShown: false }} >
         <AppStack.Screen name="Login" component={Login} />
         <AppStack.Screen name="home"  component={Home} />

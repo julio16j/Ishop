@@ -4,7 +4,7 @@ export default StyleSheet.create({
   centeredView: {
     flex: 1,
     alignItems: "center",
-    marginTop: 22,
+    backgroundColor: "#F2CB07",
   },
 
   header: {
@@ -48,11 +48,28 @@ export default StyleSheet.create({
     marginLeft: 10,
   },
 
-  itemAmount: {
-    fontSize: 18,
-    bottom: 0,
-    left: 0,
+  itemButtonsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: 100,
     position: "absolute",
+    bottom: 0,
+  },
+
+  itemButton: {
+    height: 25,
+    width: 25,
+    marginHorizontal: 10,
+    backgroundColor: "#BCBCBC",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
+  itemButtonText: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 
   itemCost: {

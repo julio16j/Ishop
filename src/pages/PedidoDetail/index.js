@@ -9,7 +9,8 @@ import {
   View,
   Image,
   CheckBox,
-  Dimensions
+  Dimensions,
+  TextInput
 } from "react-native";
 import { BorderlessButton, ScrollView, RectButton } from 'react-native-gesture-handler';
 import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
@@ -33,12 +34,25 @@ export default function DisponivelModal() {
     navigation.navigate('produtos', { pedido: pedidoAtual })
   }
 
-  function aumentarQuantidade() {
-    setQuantidade(quantidade + 1)
+  function updateQuantidade(item, quantidade) {
+    setItens(itens.map(ele => {
+      if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade = Number(quantidade)
+      return ele
+    }))
   }
 
-  function diminuirQuantidade() {
-    setQuantidade(quantidade - 1)
+  function aumentarQuantidade(item) {
+    setItens(itens.map(ele => {
+      if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade += 1
+      return ele
+    }))
+  }
+
+  function diminuirQuantidade(item) {
+    setItens(itens.map(ele => {
+      if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade -= 1
+      return ele
+    }))
   }
   useEffect(() => {
     if (route.params) {
@@ -106,13 +120,18 @@ export default function DisponivelModal() {
                 <View style={styles.itemFooter}>
                   <Text style={styles.cardText}>{item.titulo}</Text>
                   <View style={styles.itemButtonsContainer}>
-                    <TouchableOpacity style={styles.itemButton} onPress={() => { diminuirQuantidade() }}>
+                    <TouchableOpacity style={styles.itemButton} onPress={() => { diminuirQuantidade(item) }}>
                       <Text style={styles.itemButtonText}>-</Text>
                     </TouchableOpacity>
 
-                    <Text style={styles.cardText}>{quantidade}</Text>
+                    <TextInput
+                      style={styles.cardText}
+                      onChangeText={(quantidade) => { updateQuantidade(item, quantidade) }}
+                    >
+                      {item.quantidade}
+                    </TextInput>
 
-                    <TouchableOpacity style={styles.itemButton} onPress={() => { aumentarQuantidade() }}>
+                    <TouchableOpacity style={styles.itemButton} onPress={() => { aumentarQuantidade(item) }}>
                       <Text style={styles.itemButtonText}>+</Text>
                     </TouchableOpacity>
                   </View>

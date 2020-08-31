@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 import {
   Alert,
   Modal,
@@ -10,12 +10,12 @@ import {
   Image,
   CheckBox,
   Dimensions
-} from "react-native";
-import { BorderlessButton, ScrollView } from 'react-native-gesture-handler';
-import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
+} from "react-native"
+import { BorderlessButton, ScrollView } from 'react-native-gesture-handler'
+import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons'
 import {useRoute, useNavigation} from '@react-navigation/native'
-import RenderCondicional from "../../components/RenderCondicional";
-import styles from './styles';
+import RenderCondicional from "../../components/RenderCondicional"
+import styles from './styles'
 
 export default function DisponivelModal() {
   const {height, width} = Dimensions.get("screen")

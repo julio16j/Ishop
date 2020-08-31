@@ -16,7 +16,7 @@ export default function Routes() {
       <Header />
       <AppStack.Navigator screenOptions={{ headerShown: false }} >
         <AppStack.Screen name="Login" component={Login} />
-        <AppStack.Screen name="home"  component={Home} />
+        <AppStack.Screen name="home" component={Home} />
         <AppStack.Screen name="cadastrar" component={Cadastrar} />
         <AppStack.Screen name="pedidoDetail" component={PedidoDetail} />
         <AppStack.Screen name="produtos" component={Produtos} />

@@ -14,7 +14,8 @@ export default StyleSheet.create({
   },
   navTitle: {
     marginLeft: 20,
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: "700"
   },
   itemImg: {
     height: 100,
@@ -36,4 +37,11 @@ export default StyleSheet.create({
     padding: 15,
     margin: 10
   },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "700"
+  },
+  alignCenter: {
+    alignItems: 'center'
+  }
 });

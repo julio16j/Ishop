@@ -5,6 +5,7 @@ import { pedidosConfirmados } from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
 import RenderCondicional from '../../../../components/RenderCondicional'
+import Header from '../../../../components/header'
 import { useNavigation } from '@react-navigation/native'
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
@@ -44,7 +45,7 @@ export default function Disponiveis() {
   }
   return (
     <View style={styles.container}>
-
+      <Header />
       <RenderCondicional
         condicao={pedidos.length > 0}
         funcao1={

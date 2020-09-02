@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import { View } from 'react-native'
 import Routes from './src/routes'
 import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import { Ionicons } from '@expo/vector-icons'
+import 'intl'
+import 'intl/locale-data/jsonp/pt-BR'
 export default function App() {
   const [isReady, setIsReady] = useState(false)
   async function getFonts() {

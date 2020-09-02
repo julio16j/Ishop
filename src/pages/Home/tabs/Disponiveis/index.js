@@ -7,6 +7,7 @@ import Pedido from '../../../../components/Pedido'
 import { successMessage, errorMessage } from '../../../../services/alerts'
 import RenderCondicional from '../../../../components/RenderCondicional'
 import { useNavigation } from '@react-navigation/native'
+import Header from '../../../../components/header'
 var listaPedidos = []
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
@@ -106,7 +107,7 @@ export default function Disponiveis() {
   }
   return (
     <View style={styles.container}>
-
+      <Header />
       <RenderCondicional
         condicao={pedidos.length > 0}
         funcao1={

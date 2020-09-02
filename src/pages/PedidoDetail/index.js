@@ -12,13 +12,14 @@ import {
   Dimensions,
   TextInput
 } from "react-native";
-import { BorderlessButton, ScrollView, RectButton } from 'react-native-gesture-handler';
-import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
+import { BorderlessButton, ScrollView, RectButton } from 'react-native-gesture-handler'
+import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons'
 import { useRoute, useNavigation } from '@react-navigation/native'
-import RenderCondicional from "../../components/RenderCondicional";
-import styles from './styles';
-import { alterarItem } from "../../services/item";
-import store from "../../store";
+import RenderCondicional from "../../components/RenderCondicional"
+import Header from '../../components/header'
+import styles from './styles'
+import { alterarItem } from "../../services/item"
+import store from "../../store"
 
 export default function PedidoDetail() {
   const { height, width } = Dimensions.get("screen")
@@ -95,7 +96,8 @@ export default function PedidoDetail() {
 
   return (
     <View style={styles.centeredView}>
-      <ScrollView style={{ flex: 1, width: '95%' }} >
+      <Header />
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, width: '95%' }} >
         <View style={styles.header}>
           <Text style={styles.cardTitle}>{pedidoAtual.nome}</Text>
           <TouchableOpacity onPress={navigateBack}>

@@ -5,8 +5,6 @@ import {
   MaterialCommunityIcons,
 } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import AsyncStorage from '@react-native-community/async-storage';
-import { validarLogin } from '../../services/user'
 import Disponiveis from "./tabs/Disponiveis"
 import Confirmados from "./tabs/Confirmados"
 import EmTransito from "./tabs/EmTransito"

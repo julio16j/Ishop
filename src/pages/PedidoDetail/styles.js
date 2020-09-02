@@ -72,11 +72,18 @@ export default StyleSheet.create({
   },
 
   itemCost: {
-    fontSize: 18,
-    color: "green",
     bottom: 0,
     right: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     position: "absolute",
+  },
+
+  itemCostText: {
+    fontSize: 18,
+    color: "green",
+    marginLeft: 5,
   },
 
   addressText: {

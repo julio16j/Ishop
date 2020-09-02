@@ -37,7 +37,7 @@ export default function PedidoDetail() {
     navigation.navigate('produtos', { pedido: pedidoAtual })
   }
 
-  function alterarValor() {
+  function alterarValorTotal() {
     pedidoAtual.pagtos[0].valor = 0
     itens.map(ele => {
       pedidoAtual.pagtos[0].valor += ele.quantidade * ele.valorUnitario
@@ -49,7 +49,7 @@ export default function PedidoDetail() {
       alterarItem(token, pedidoAtual.pedidoId, ele.pedidoItemId, ele)
       return ele
     }))
-    alterarValor()
+    alterarValorTotal()
     Alert.alert("Seu pedido foi alterado")
   }
 
@@ -58,7 +58,15 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade = Number(quantidade)
       return ele
     }))
-    alterarValor()
+    alterarValorTotal()
+  }
+
+  function updateValor(item, valor) {
+    setItens(itens.map(ele => {
+      if (ele.pedidoItemId === item.pedidoItemId) ele.valorUnitario = Number(valor)
+      return ele
+    }))
+    alterarValorTotal()
   }
 
   function aumentarQuantidade(item) {
@@ -66,7 +74,7 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade += 1
       return ele
     }))
-    alterarValor()
+    alterarValorTotal()
   }
 
   function diminuirQuantidade(item) {
@@ -74,7 +82,7 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade -= 1
       return ele
     }))
-    alterarValor()
+    alterarValorTotal()
   }
   useEffect(() => {
     if (route.params) {
@@ -159,9 +167,16 @@ export default function PedidoDetail() {
                     </TouchableOpacity>
                   </View>
 
-                  <Text style={styles.itemCost}>
-                    R$ {item.valorUnitario * item.quantidade}
-                  </Text>
+                  <View style={styles.itemCost}>
+                    <Text style={styles.itemCostText}>R$</Text>
+                    <TextInput
+                      style={styles.itemCostText}
+                      onChangeText={(valor) => { updateValor(item, valor) }}
+                      editable={pedidoAtual.situacao <= 2}
+                    >
+                      {item.valorUnitario}
+                    </TextInput>
+                  </View>
                 </View>
               </View>
             )

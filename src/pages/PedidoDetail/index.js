@@ -120,9 +120,9 @@ export default function PedidoDetail() {
 
         <Text style={styles.cardTitle}>Forma de pagamento</Text>
         <View style={styles.card}>
-          {pedidoAtual.pagtos.map((pagamento) => {
+          {pedidoAtual.pagtos.map((pagamento, index) => {
             return (
-              <View style={styles.payForm} key={pagamento.pedidoPagtoId}>
+              <View style={styles.payForm} key={index}>
                 <Text style={styles.cardText}>{pagamento.descricao}</Text>
               </View>
             )
@@ -131,9 +131,9 @@ export default function PedidoDetail() {
 
         <Text style={styles.cardTitle}>Meus itens</Text>
         <View style={styles.card, { padding: 0 }}>
-          {itens.map((item) => {
+          {itens.map((item, index) => {
             return (
-              <View style={styles.item} key={item.produtoId}>
+              <View style={styles.item} key={index}>
                 <RenderCondicional
                   condicao={item.imagemId}
                   funcao1={<Image source={item.imagemId} style={styles.itemImg} />}
@@ -168,7 +168,7 @@ export default function PedidoDetail() {
           })}
         </View>
         <View style={{ backgroundColor: "white", marginBottom: 50 }}>
-          <TouchableOpacity style={{ ...styles.button, backgroundColor: "orange" }}>
+          <TouchableOpacity style={{ ...styles.button, backgroundColor: "orange" }} onPress={adicionarItens} >
             <Text style={styles.buttonText}>Adicionar</Text>
           </TouchableOpacity>
         </View>

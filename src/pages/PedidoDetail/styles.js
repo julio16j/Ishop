@@ -124,8 +124,8 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    marginTop: 20,
-    marginBottom: 50
+    marginTop: -20,
+    marginBottom: 80
   },
 
   buttonDisponivel: {

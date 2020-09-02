@@ -17,8 +17,10 @@ import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native'
 import RenderCondicional from "../../components/RenderCondicional";
 import styles from './styles';
+import { alterarItem } from "../../services/item";
+import store from "../../store";
 
-export default function DisponivelModal() {
+export default function PedidoDetail() {
   const { height, width } = Dimensions.get("screen")
   const [itens, setItens] = useState([0])
   const [pagamento, setPagamento] = useState([0])
@@ -26,6 +28,7 @@ export default function DisponivelModal() {
   const [pedidoAtual, setPedidoAtual] = useState({ pagtos: [] })
   const [quantidade, setQuantidade] = useState(0)
   const route = useRoute()
+  const token = store.getState().user.token
   const navigation = useNavigation()
   function navigateBack() {
     navigation.navigate('home')
@@ -34,11 +37,28 @@ export default function DisponivelModal() {
     navigation.navigate('produtos', { pedido: pedidoAtual })
   }
 
+  function alterarValor() {
+    pedidoAtual.pagtos[0].valor = 0
+    itens.map(ele => {
+      pedidoAtual.pagtos[0].valor += ele.quantidade * ele.valorUnitario
+    })
+  }
+
+  function alterarPedido() {
+    setItens(itens.map(ele => {
+      alterarItem(token, pedidoAtual.pedidoId, ele.pedidoItemId, ele)
+      return ele
+    }))
+    alterarValor()
+    Alert.alert("Seu pedido foi alterado")
+  }
+
   function updateQuantidade(item, quantidade) {
     setItens(itens.map(ele => {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade = Number(quantidade)
       return ele
     }))
+    alterarValor()
   }
 
   function aumentarQuantidade(item) {
@@ -46,6 +66,7 @@ export default function DisponivelModal() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade += 1
       return ele
     }))
+    alterarValor()
   }
 
   function diminuirQuantidade(item) {
@@ -53,6 +74,7 @@ export default function DisponivelModal() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade -= 1
       return ele
     }))
+    alterarValor()
   }
   useEffect(() => {
     if (route.params) {
@@ -120,19 +142,19 @@ export default function DisponivelModal() {
                 <View style={styles.itemFooter}>
                   <Text style={styles.cardText}>{item.titulo}</Text>
                   <View style={styles.itemButtonsContainer}>
-                    <TouchableOpacity style={styles.itemButton} onPress={() => { diminuirQuantidade(item) }}>
+                    <TouchableOpacity style={styles.itemButton} onPress={() => { diminuirQuantidade(item) }} disabled={pedidoAtual.situacao > 2}>
                       <Text style={styles.itemButtonText}>-</Text>
                     </TouchableOpacity>
 
                     <TextInput
                       style={styles.cardText}
                       onChangeText={(quantidade) => { updateQuantidade(item, quantidade) }}
-                      keyboardType={"numeric"}
+                      editable={pedidoAtual.situacao <= 2}
                     >
                       {item.quantidade}
                     </TextInput>
 
-                    <TouchableOpacity style={styles.itemButton} onPress={() => { aumentarQuantidade(item) }}>
+                    <TouchableOpacity style={styles.itemButton} onPress={() => { aumentarQuantidade(item) }} disabled={pedidoAtual.situacao > 2}>
                       <Text style={styles.itemButtonText}>+</Text>
                     </TouchableOpacity>
                   </View>
@@ -145,8 +167,8 @@ export default function DisponivelModal() {
             )
           })}
         </View>
-        <View style={{ backgroundColor: "white" }}>
-          <TouchableOpacity style={{ ...styles.button, backgroundColor: "orange" }} onPress={adicionarItens}>
+        <View style={{ backgroundColor: "white", marginBottom: 50 }}>
+          <TouchableOpacity style={{ ...styles.button, backgroundColor: "orange" }}>
             <Text style={styles.buttonText}>Adicionar</Text>
           </TouchableOpacity>
         </View>
@@ -157,15 +179,15 @@ export default function DisponivelModal() {
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
                 style={{ ...styles.buttonDisponivel, backgroundColor: "green" }}
-                onPress={() => confirmar(token, pedidoAtual.pedidoId)}
+                onPress={alterarPedido}
               >
-                <Text style={styles.buttonText}>Confirmar</Text>
+                <Text style={styles.buttonText}>Alterar</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ ...styles.buttonDisponivel, backgroundColor: "red" }}
                 onPress={() => rejeitar(token, pedidoAtual.pedidoId)}
               >
-                <Text style={styles.buttonText}>Rejeitar</Text>
+                <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>
             </View>
           }

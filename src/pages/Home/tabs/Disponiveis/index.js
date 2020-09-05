@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableWithoutFeedbackComponent, FlatList } from 'react-native'
+import { View, Text, FlatList } from 'react-native'
 import styles from './styles'
 import { pedidosFechados, confirmarPedido, rejeitarPedido } from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
 import { successMessage, errorMessage } from '../../../../services/alerts'
 import RenderCondicional from '../../../../components/RenderCondicional'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import Header from '../../../../components/header'
 var listaPedidos = []
 export default function Disponiveis() {
@@ -16,10 +16,7 @@ export default function Disponiveis() {
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
   const navigation = useNavigation()
-  function navigateToProdutos () {
-    setVisible(false)
-    navigation.navigate('produtos')
-  }
+  const route = useRoute()
   async function ConfirmarPedido(token, pedidoId) {
     setLoading(true)
     try {
@@ -52,7 +49,9 @@ export default function Disponiveis() {
   async function catchPedidos() {
     try {
       const pedidosDisponiveis = await pedidosFechados(token)
-      if (novosPedidos(pedidosDisponiveis)) {
+      let shouldUpdate = false
+      if (route.params) shouldUpdate = route.params.shouldUpdate
+      if (novosPedidos(pedidosDisponiveis) || shouldUpdate ) {
         atualizarPedidos(pedidosDisponiveis)
       }
     } catch (error) {
@@ -95,7 +94,7 @@ export default function Disponiveis() {
       setLoading(false)
     }
     setInterval(catchPedidos, 1000)
-  }, [])
+  }, [route.params])
 
   function detalhar(pedido) {
     setPedidoAtual(pedido)

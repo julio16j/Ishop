@@ -92,7 +92,7 @@ export default function PedidoDetail() {
       setPagamento(route.params.pedido.pagtos)
       setRegistros(route.params.pedido.registros)
     }
-  }, [])
+  }, [route.params])
 
   return (
     <View style={styles.centeredView}>

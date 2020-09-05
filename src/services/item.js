@@ -22,9 +22,14 @@ export async function removerItem (token, pedidoId, pedidoItemId) {
   }
 }
 
-export async function adicionarItem (token, pedidoId, item) {
+export async function adicionarItem (token, pedidoId, produto) {
+  const adicionarItemDTO = {
+    PedidoId: pedidoId,
+    ProdutoId: produto.produtoId,
+    Quantidade: produto.quantidade
+  }
   try {
-    const response = await api.post(`/store/${token}/pedido/${pedidoId}/itens`, item)
+    const response = await api.post(`/store/${token}/pedido/${pedidoId}/itens`, adicionarItemDTO)
     return response.data
   } catch (err) {
     return { data: { exception: 'Erro' } }

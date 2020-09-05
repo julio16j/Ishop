@@ -1,13 +1,11 @@
 import { showMessage } from "react-native-flash-message";
-export function errorMessage (mensagem) {
-  showMessage({
-    message: mensagem,
-    type: "danger"
-  })
+function message (type) {
+  return function (message) {
+    showMessage({
+      message,
+      type
+    })
+  }
 }
-export function successMessage (mensagem) {
-  showMessage({
-    message: mensagem,
-    type: "success"
-  })
-}
+export const erroMessage = message('danger')
+export const sucessMessage = message('success')

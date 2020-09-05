@@ -20,29 +20,44 @@ export default StyleSheet.create({
   },
   itemImg: {
     height: 100,
-    width: 100,
-    backgroundColor: "#333333",
+    width: 150,
+    backgroundColor: "#333333"
   },
   item: {
-    backgroundColor: "#ffffff",
-    padding: 10
+    backgroundColor: "#ffffff"
   },
   itensContainer: {
     alignItems: 'center'
   },
-  ScrollView: {
-    paddingTop: 10,
-  },
   card: {
     backgroundColor: "#ffffff",
-    padding: 15,
-    margin: 10
+    margin: 10,
+    minHeight: 180,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7
   },
   cardTitle: {
-    fontSize: 18,
-    fontWeight: "700"
+    fontSize: 16,
+    fontWeight: "600"
   },
-  alignCenter: {
-    alignItems: 'center'
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderBottomColor: '#222222',
+    marginBottom: 2,
+    padding: 1
+  },
+  cardSubtitle: {
+    padding: 1
   }
 });

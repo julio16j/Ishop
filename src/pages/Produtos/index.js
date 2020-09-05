@@ -9,9 +9,9 @@ export default function () {
   const route = useRoute()
   const [pedidoAtual, setPedidoAtual] = useState({})
   const [produtos, setProdutos] = useState([
-    { titulo: 'Leite Quente', descricao: 'lorem ipsum dolor', valorUnitario: 10 },
-    { titulo: 'Achocolatado', descricao: 'lorem ipsum dolor', valorUnitario: 8.50},
-    { titulo: 'Manteiga', descricao: 'lorem ipsum dolor', valorUnitario: 3.50}
+    { titulo: 'Leite Quente', produtoId: '40e19119-5694-4dba-b8b4-98125ff62429' , descricao: 'lorem ipsum dolor', valorUnitario: 10,  quantidade: 1 },
+    { titulo: 'Fio Dental', produtoId: '71c83c90-a771-4919-957b-e58106cbd53d' , descricao: 'lorem ipsum dolor', valorUnitario: 8.50, quantidade : 1 },
+    { titulo: 'Manteiga', produtoId: '71c83c90-a771-4919-957b-e58106cbd53d ', descricao: 'lorem ipsum dolor', valorUnitario: 3.50, quantidade: 1 }
   ])
   function navigateToProdutoDetail (produto) {
     navigation.navigate('produtoDetail', {pedido: pedidoAtual, produto})
@@ -32,7 +32,7 @@ export default function () {
       <View style={styles.itensContainer}>
           <FlatList data={produtos} numColumns={2} renderItem={(item) => {
             return (
-              <TouchableOpacity style={[styles.card]} onPress={() => navigateToProdutoDetail(item.item)}>
+              <TouchableOpacity style={styles.card} onPress={() => navigateToProdutoDetail(item.item)}>
                 <View style={styles.item}>
                   <View style={styles.alignCenter}>
                     <RenderCondicional
@@ -42,13 +42,13 @@ export default function () {
                     />
                   </View>
                   <View style={styles.itemFooter}>
-                    <View style={styles.alignCenter} >
+                    <View style={styles.header} >
                       <Text style={styles.cardTitle}>{item.item.titulo}</Text>
+                      <Text style={styles.itemCost}>
+                        R$ {item.item.valorUnitario}
+                      </Text>
                     </View>
                     <Text style={styles.cardSubtitle}>{item.item.descricao}</Text>
-                    <Text style={styles.itemCost}>
-                      R$ {item.item.valorUnitario}
-                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>

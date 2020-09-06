@@ -13,12 +13,15 @@ import {
   TextInput
 } from "react-native";
 import { BorderlessButton, ScrollView, RectButton } from 'react-native-gesture-handler'
-import { Ionicons, Feather, FontAwesome5 } from '@expo/vector-icons'
+import Spinner from 'react-native-loading-spinner-overlay'
+import { Ionicons, Feather, FontAwesome } from '@expo/vector-icons'
 import { useRoute, useNavigation } from '@react-navigation/native'
 import RenderCondicional from "../../components/RenderCondicional"
 import Header from '../../components/header'
 import styles from './styles'
-import { alterarItem } from "../../services/item"
+import { alterarItem, removerItem } from "../../services/item"
+import { rejeitarPedido } from '../../services/pedido'
+import { sucessMessage, erroMessage } from '../../services/alerts'
 import store from "../../store"
 
 export default function PedidoDetail() {
@@ -28,6 +31,7 @@ export default function PedidoDetail() {
   const [registros, setRegistros] = useState()
   const [pedidoAtual, setPedidoAtual] = useState({ pagtos: [] })
   const [quantidade, setQuantidade] = useState(0)
+  const [loading, setLoading] = useState(false)
   const route = useRoute()
   const token = store.getState().user.token
   const navigation = useNavigation()
@@ -38,20 +42,39 @@ export default function PedidoDetail() {
     navigation.navigate('produtos', { pedido: pedidoAtual })
   }
 
+  async function excluirItem(token, pedidoId, pedidoItemId) {
+    setLoading(true)
+    try {
+      const response = await removerItem(token, pedidoId, pedidoItemId)
+      sucessMessage('Item removido')
+    } catch {
+      erroMessage('Erro ao remover item')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   function alterarValorTotal() {
-    pedidoAtual.pagtos[0].valor = 0
+    let valor = 0
     itens.map(ele => {
-      pedidoAtual.pagtos[0].valor += ele.quantidade * ele.valorUnitario
+      valor += ele.quantidade * ele.valorUnitario
     })
+    pedidoAtual.pagtos[0].valor = valor
   }
 
   function alterarPedido() {
-    setItens(itens.map(ele => {
-      alterarItem(token, pedidoAtual.pedidoId, ele.pedidoItemId, ele)
-      return ele
-    }))
-    alterarValorTotal()
-    Alert.alert("Seu pedido foi alterado")
+    setLoading(true)
+    try {
+      setItens(itens.map(ele => {
+        alterarItem(token, pedidoAtual.pedidoId, ele.pedidoItemId, ele)
+        return ele
+      }))
+      alterarValorTotal()
+    } catch {
+      erroMessage('Erro ao alterar pedido')
+    } finally {
+      setLoading(false)
+    }
   }
 
   function updateQuantidade(item, quantidade) {
@@ -75,6 +98,7 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade += 1
       return ele
     }))
+    console.log(itens)
     alterarValorTotal()
   }
 
@@ -85,6 +109,22 @@ export default function PedidoDetail() {
     }))
     alterarValorTotal()
   }
+
+  async function RejeitarPedido(token, pedidoId) {
+    setLoading(true)
+    try {
+      const response = await rejeitarPedido(token, pedidoId)
+      if (response.status === 200) {
+        setPedidos(pedidos.filter(pedido => pedido.pedidoId !== response.data.pedidoId))
+        sucessMessage('Perdido Rejeitado')
+      }
+    } catch {
+      erroMessage('Erro ao Reijeitar Pedido')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     if (route.params) {
       setPedidoAtual(route.params.pedido)
@@ -97,6 +137,13 @@ export default function PedidoDetail() {
   return (
     <View style={styles.centeredView}>
       <Header />
+
+      <Spinner
+        visible={loading}
+        textContent={'Loading...'}
+        textStyle={{ color: '#FFF' }}
+      />
+
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, width: '95%' }} >
         <View style={styles.header}>
           <Text style={styles.cardTitle}>{pedidoAtual.nome}</Text>
@@ -152,12 +199,22 @@ export default function PedidoDetail() {
                 <View style={styles.itemFooter}>
                   <Text style={styles.cardText}>{item.titulo}</Text>
                   <View style={styles.itemButtonsContainer}>
-                    <TouchableOpacity style={styles.itemButton} onPress={() => { diminuirQuantidade(item) }} disabled={pedidoAtual.situacao > 2}>
-                      <Text style={styles.itemButtonText}>-</Text>
-                    </TouchableOpacity>
+                    <RenderCondicional
+                      condicao={item.quantidade > 1}
+                      funcao1={
+                        <TouchableOpacity style={styles.itemButton} onPress={() => { diminuirQuantidade(item) }} disabled={pedidoAtual.situacao > 2}>
+                          <FontAwesome name="minus" size={20} color="#444" />
+                        </TouchableOpacity>
+                      }
+                      funcao2={
+                        <TouchableOpacity style={styles.itemButton} onPress={() => { excluirItem(token, pedidoAtual.pedidoId, item.pedidoItemId) }} disabled={pedidoAtual.situacao > 2}>
+                          <Feather name="trash" size={20} color="#444" />
+                        </TouchableOpacity>
+                      }
+                    />
 
                     <TextInput
-                      style={styles.cardText}
+                      style={styles.cardText, { textAlign: "center", fontSize: 18 }}
                       onChangeText={(quantidade) => { updateQuantidade(item, quantidade) }}
                       editable={pedidoAtual.situacao <= 2}
                     >
@@ -165,7 +222,7 @@ export default function PedidoDetail() {
                     </TextInput>
 
                     <TouchableOpacity style={styles.itemButton} onPress={() => { aumentarQuantidade(item) }} disabled={pedidoAtual.situacao > 2}>
-                      <Text style={styles.itemButtonText}>+</Text>
+                      <FontAwesome name="plus" size={20} color="#444" />
                     </TouchableOpacity>
                   </View>
 
@@ -202,7 +259,7 @@ export default function PedidoDetail() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ ...styles.buttonDisponivel, backgroundColor: "red" }}
-                onPress={() => rejeitar(token, pedidoAtual.pedidoId)}
+                onPress={() => RejeitarPedido(token, pedidoAtual.pedidoId)}
               >
                 <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>

@@ -38,7 +38,7 @@ export default function Disponiveis() {
       const response = await rejeitarPedido(token, pedidoId)
       if (response.status === 200) {
         setPedidos(pedidos.filter(pedido => pedido.pedidoId !== response.data.pedidoId))
-        sucessMessage('Perdido Rejeitado')
+        successMessage('Perdido Rejeitado')
       }
     } catch {
       errorMessage('Erro ao Reijeitar Pedido')
@@ -51,7 +51,7 @@ export default function Disponiveis() {
       const pedidosDisponiveis = await pedidosFechados(token)
       let shouldUpdate = false
       if (route.params) shouldUpdate = route.params.shouldUpdate
-      if (novosPedidos(pedidosDisponiveis) || shouldUpdate ) {
+      if (novosPedidos(pedidosDisponiveis) || shouldUpdate) {
         atualizarPedidos(pedidosDisponiveis)
       }
     } catch (error) {
@@ -98,7 +98,7 @@ export default function Disponiveis() {
 
   function detalhar(pedido) {
     setPedidoAtual(pedido)
-    navigation.navigate('pedidoDetail', {pedido})
+    navigation.navigate('pedidoDetail', { pedido })
   }
 
   function fechar() {

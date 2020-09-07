@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
-  Alert,
-  Modal,
-  StyleSheet,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   View,
   Image,
@@ -12,7 +8,7 @@ import {
   Dimensions,
   TextInput
 } from "react-native";
-import { BorderlessButton, ScrollView, RectButton } from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native-gesture-handler'
 import Spinner from 'react-native-loading-spinner-overlay'
 import { Ionicons, Feather, FontAwesome } from '@expo/vector-icons'
 import { useRoute, useNavigation } from '@react-navigation/native'
@@ -54,13 +50,11 @@ export default function PedidoDetail() {
     }
   }
 
-  function alterarValorTotal() {
-    let valor = 0
-    itens.map(ele => {
-      valor += ele.quantidade * ele.valorUnitario
-    })
-    pedidoAtual.pagtos[0].valor = valor
-  }
+  const total = useMemo(() => {
+    return itens.reduce((acumulador, atual) => {
+      return acumulador + atual.quantidade * atual.valorUnitario
+    }, 0)
+  }, [itens])
 
   function alterarPedido() {
     setLoading(true)
@@ -82,7 +76,6 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade = Number(quantidade)
       return ele
     }))
-    alterarValorTotal()
   }
 
   function updateValor(item, valor) {
@@ -90,7 +83,6 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.valorUnitario = Number(valor)
       return ele
     }))
-    alterarValorTotal()
   }
 
   function aumentarQuantidade(item) {
@@ -98,8 +90,7 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade += 1
       return ele
     }))
-    console.log(itens)
-    alterarValorTotal()
+
   }
 
   function diminuirQuantidade(item) {
@@ -107,7 +98,6 @@ export default function PedidoDetail() {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade -= 1
       return ele
     }))
-    alterarValorTotal()
   }
 
   async function RejeitarPedido(token, pedidoId) {
@@ -144,50 +134,16 @@ export default function PedidoDetail() {
         textStyle={{ color: '#FFF' }}
       />
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, width: '95%' }} >
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, width: '100%' }} >
         <View style={styles.header}>
-          <Text style={styles.cardTitle}>{pedidoAtual.nome}</Text>
+          <Text style={{ ...styles.cardTitle, paddingBottom: 12 }}>{pedidoAtual.nome}</Text>
           <TouchableOpacity onPress={navigateBack}>
             <Ionicons name="ios-close" size={40} color="white" />
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.cardTitle}>Endereço de entrega</Text>
-        <View style={styles.card}>
-          <Text style={styles.cardText}>Endereço :</Text>
-          <RenderCondicional
-            condicao={pedidoAtual.logradouro}
-            funcao1={
-              <View>
-                <Text style={styles.addressText}>{pedidoAtual.logradouro}, {pedidoAtual.numero}</Text>
-                <Text style={styles.addressText}>{pedidoAtual.cidadeId} / {pedidoAtual.estado}</Text>
-                <Text style={styles.addressText}>{pedidoAtual.compl}</Text>
-                <View style={styles.addressFooter}>
-                  <Text style={styles.cardText}>{pedidoAtual.referencia}</Text>
-                </View>
-              </View>
-            }
-            funcao2={<Text style={styles.addressText}>Não informado</Text>}
-          />
-          <View style={styles.addressFooter}>
-            <Text style={styles.cardText}>Vou retirar na loja</Text>
-            <CheckBox disabled={true} />
-          </View>
-        </View>
-
-        <Text style={styles.cardTitle}>Forma de pagamento</Text>
-        <View style={styles.card}>
-          {pedidoAtual.pagtos.map((pagamento, index) => {
-            return (
-              <View style={styles.payForm} key={index}>
-                <Text style={styles.cardText}>{pagamento.descricao}</Text>
-              </View>
-            )
-          })}
-        </View>
-
         <Text style={styles.cardTitle}>Meus itens</Text>
-        <View style={styles.card, { padding: 0 }}>
+        <View style={{ ...styles.card, padding: 0 }}>
           {itens.map((item, index) => {
             return (
               <View style={styles.item} key={index}>
@@ -240,11 +196,49 @@ export default function PedidoDetail() {
               </View>
             )
           })}
+          <View style={styles.total}>
+            <Text style={styles.cardText}>Total :</Text>
+            <Text style={styles.totalValue}>R$ {total}</Text>
+          </View>
         </View>
-        <View style={{ backgroundColor: "white", marginBottom: 50 }}>
+        <View style={{ ...styles.card, paddingVertical: 5 }}>
           <TouchableOpacity style={{ ...styles.button, backgroundColor: "orange" }} onPress={adicionarItens} >
-            <Text style={styles.buttonText}>Adicionar</Text>
+            <Text style={styles.buttonText}>Adicionar itens</Text>
           </TouchableOpacity>
+        </View>
+
+        <Text style={styles.cardTitle}>Endereço de entrega</Text>
+        <View style={styles.card}>
+          <Text style={styles.cardText}>Endereço :</Text>
+          <RenderCondicional
+            condicao={pedidoAtual.logradouro}
+            funcao1={
+              <View>
+                <Text style={styles.addressText}>{pedidoAtual.logradouro}, {pedidoAtual.numero}</Text>
+                <Text style={styles.addressText}>{pedidoAtual.cidadeId} / {pedidoAtual.estado}</Text>
+                <Text style={styles.addressText}>{pedidoAtual.compl}</Text>
+                <View style={styles.addressFooter}>
+                  <Text style={styles.cardText}>{pedidoAtual.referencia}</Text>
+                </View>
+              </View>
+            }
+            funcao2={<Text style={styles.addressText}>Não informado</Text>}
+          />
+          <View style={styles.addressFooter}>
+            <Text style={styles.cardText}>Vou retirar na loja</Text>
+            <CheckBox disabled={true} />
+          </View>
+        </View>
+
+        <Text style={styles.cardTitle}>Forma de pagamento</Text>
+        <View style={styles.card}>
+          {pedidoAtual.pagtos.map((pagamento, index) => {
+            return (
+              <View style={styles.payForm} key={index}>
+                <Text style={styles.cardText}>{pagamento.descricao}</Text>
+              </View>
+            )
+          })}
         </View>
 
         <RenderCondicional
@@ -252,26 +246,21 @@ export default function PedidoDetail() {
           funcao1={
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
-                style={{ ...styles.buttonDisponivel, backgroundColor: "green" }}
+                style={styles.buttonDisponivel}
                 onPress={alterarPedido}
               >
-                <Text style={styles.buttonText}>Alterar</Text>
+                <Text style={{ ...styles.buttonText, color: "green" }}>Confirmar alteração</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{ ...styles.buttonDisponivel, backgroundColor: "red" }}
+                style={styles.buttonDisponivel}
                 onPress={() => RejeitarPedido(token, pedidoAtual.pedidoId)}
               >
-                <Text style={styles.buttonText}>Cancelar</Text>
+                <Text style={{ ...styles.buttonText, color: "red" }}>Cancelar</Text>
               </TouchableOpacity>
             </View>
           }
         />
       </ScrollView>
-
-      <View style={styles.footer}>
-        <Text style={styles.cardText}>Total :</Text>
-        <Text style={styles.totalValue}>R$ {pedidoAtual.pagtos[0] ? pedidoAtual.pagtos[0].valor : 0}</Text>
-      </View>
     </View>
   );
 }

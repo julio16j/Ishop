@@ -15,16 +15,18 @@ export default StyleSheet.create({
   },
 
   cardTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#000000",
-    marginVertical: 20,
-    marginLeft: 10,
+    marginTop: 20,
+    margin: 10,
   },
 
   card: {
     backgroundColor: "#ffffff",
     padding: 15,
+    width: "95%",
+    alignSelf: "center",
   },
 
   cardText: {
@@ -35,6 +37,8 @@ export default StyleSheet.create({
     backgroundColor: "#ffffff",
     padding: 10,
     flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: "#c5c5c5",
   },
 
   itemImg: {
@@ -86,6 +90,17 @@ export default StyleSheet.create({
     marginLeft: 5,
   },
 
+  total: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    backgroundColor: "#ffffff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#c5c5c5",
+  },
+
   addressText: {
     fontSize: 18,
     marginVertical: 10,
@@ -109,18 +124,6 @@ export default StyleSheet.create({
     padding: 10,
   },
 
-  footer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 10,
-    backgroundColor: "#ffffff",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-
   totalValue: {
     fontSize: 22,
     fontWeight: "bold",
@@ -131,18 +134,23 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    marginTop: -20,
-    marginBottom: 80
+    padding: 10,
+    marginTop: 20,
   },
 
   buttonDisponivel: {
     width: 150,
+    height: 70,
+    flex: 1,
     padding: 20,
-    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#c5c5c5",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   button: {
-    backgroundColor: "#C40233",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -155,6 +163,6 @@ export default StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 20,
   },
 });

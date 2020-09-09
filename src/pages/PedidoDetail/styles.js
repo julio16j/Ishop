@@ -11,26 +11,36 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingRight: 10,
+    paddingRight: 16,
+    backgroundColor: "#fff",
+    borderRadius: 32,
+    marginHorizontal: 10,
+    marginBottom: 15,
   },
 
   cardTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000000",
+    color: "#7A7A7A",
     marginTop: 20,
     margin: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#c5c5c5",
   },
 
   card: {
     backgroundColor: "#ffffff",
-    padding: 15,
     width: "95%",
     alignSelf: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#c5c5c5",
+    margin: 5,
   },
 
   cardText: {
     fontSize: 18,
+    color: "#707070",
+    margin: 10,
   },
 
   item: {
@@ -103,7 +113,7 @@ export default StyleSheet.create({
 
   addressText: {
     fontSize: 18,
-    marginVertical: 10,
+    margin: 10,
     color: "#999999",
   },
 
@@ -113,8 +123,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 20,
-    paddingRight: 10,
+    padding: 10,
   },
 
   payForm: {
@@ -135,7 +144,6 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-evenly",
     padding: 10,
-    marginTop: 20,
   },
 
   buttonDisponivel: {
@@ -143,8 +151,6 @@ export default StyleSheet.create({
     height: 70,
     flex: 1,
     padding: 20,
-    borderWidth: 1,
-    borderColor: "#c5c5c5",
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",

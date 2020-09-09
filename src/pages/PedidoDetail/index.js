@@ -136,14 +136,14 @@ export default function PedidoDetail() {
 
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, width: '100%' }} >
         <View style={styles.header}>
-          <Text style={{ ...styles.cardTitle, paddingBottom: 12 }}>{pedidoAtual.nome}</Text>
+          <Text style={{ ...styles.cardTitle, paddingBottom: 12, borderBottomWidth: 0 }}>{pedidoAtual.nome}</Text>
           <TouchableOpacity onPress={navigateBack}>
-            <Ionicons name="ios-close" size={40} color="white" />
+            <Ionicons name="ios-close" size={40} color="#7a7a7a" />
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.cardTitle}>Meus itens</Text>
-        <View style={{ ...styles.card, padding: 0 }}>
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Meus itens</Text>
           {itens.map((item, index) => {
             return (
               <View style={styles.item} key={index}>
@@ -153,32 +153,33 @@ export default function PedidoDetail() {
                   funcao2={<View style={styles.itemImg} />}
                 />
                 <View style={styles.itemFooter}>
-                  <Text style={styles.cardText}>{item.titulo}</Text>
+                  <Text style={{ ...styles.cardText, margin: 0 }}>{item.titulo}</Text>
                   <View style={styles.itemButtonsContainer}>
                     <RenderCondicional
                       condicao={item.quantidade > 1}
                       funcao1={
                         <TouchableOpacity style={styles.itemButton} onPress={() => { diminuirQuantidade(item) }} disabled={pedidoAtual.situacao > 2}>
-                          <FontAwesome name="minus" size={20} color="#444" />
+                          <FontAwesome name="minus" size={20} color="#7a7a7a" />
                         </TouchableOpacity>
                       }
                       funcao2={
                         <TouchableOpacity style={styles.itemButton} onPress={() => { excluirItem(token, pedidoAtual.pedidoId, item.pedidoItemId) }} disabled={pedidoAtual.situacao > 2}>
-                          <Feather name="trash" size={20} color="#444" />
+                          <Feather name="trash" size={20} color="#7a7a7a" />
                         </TouchableOpacity>
                       }
                     />
 
                     <TextInput
-                      style={styles.cardText, { textAlign: "center", fontSize: 18 }}
+                      style={{ ...styles.cardText, textAlign: "center", fontSize: 18, margin: 0 }}
                       onChangeText={(quantidade) => { updateQuantidade(item, quantidade) }}
+                      keyboardType="numeric"
                       editable={pedidoAtual.situacao <= 2}
                     >
                       {item.quantidade}
                     </TextInput>
 
                     <TouchableOpacity style={styles.itemButton} onPress={() => { aumentarQuantidade(item) }} disabled={pedidoAtual.situacao > 2}>
-                      <FontAwesome name="plus" size={20} color="#444" />
+                      <FontAwesome name="plus" size={20} color="#7a7a7a" />
                     </TouchableOpacity>
                   </View>
 
@@ -187,6 +188,7 @@ export default function PedidoDetail() {
                     <TextInput
                       style={styles.itemCostText}
                       onChangeText={(valor) => { updateValor(item, valor) }}
+                      keyboardType="numeric"
                       editable={pedidoAtual.situacao <= 2}
                     >
                       {item.valorUnitario}
@@ -198,18 +200,16 @@ export default function PedidoDetail() {
           })}
           <View style={styles.total}>
             <Text style={styles.cardText}>Total :</Text>
-            <Text style={styles.totalValue}>R$ {total}</Text>
+            <Text style={styles.totalValue}>R$ {total ? total : 0.00}</Text>
           </View>
-        </View>
-        <View style={{ ...styles.card, paddingVertical: 5 }}>
           <TouchableOpacity style={{ ...styles.button, backgroundColor: "orange" }} onPress={adicionarItens} >
             <Text style={styles.buttonText}>Adicionar itens</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.cardTitle}>Endereço de entrega</Text>
         <View style={styles.card}>
-          <Text style={styles.cardText}>Endereço :</Text>
+          <Text style={styles.cardTitle}>Endereço de entrega</Text>
+          <Text style={{ ...styles.cardText, marginLeft: 10 }}>Endereço :</Text>
           <RenderCondicional
             condicao={pedidoAtual.logradouro}
             funcao1={
@@ -230,8 +230,8 @@ export default function PedidoDetail() {
           </View>
         </View>
 
-        <Text style={styles.cardTitle}>Forma de pagamento</Text>
         <View style={styles.card}>
+          <Text style={styles.cardTitle}>Forma de pagamento</Text>
           {pedidoAtual.pagtos.map((pagamento, index) => {
             return (
               <View style={styles.payForm} key={index}>
@@ -247,15 +247,15 @@ export default function PedidoDetail() {
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
                 style={styles.buttonDisponivel}
-                onPress={alterarPedido}
+                onPress={() => RejeitarPedido(token, pedidoAtual.pedidoId)}
               >
-                <Text style={{ ...styles.buttonText, color: "green" }}>Confirmar alteração</Text>
+                <Text style={{ ...styles.buttonText, color: "#F2CB07" }}>Cancelar</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonDisponivel}
-                onPress={() => RejeitarPedido(token, pedidoAtual.pedidoId)}
+                onPress={alterarPedido}
               >
-                <Text style={{ ...styles.buttonText, color: "red" }}>Cancelar</Text>
+                <Text style={{ ...styles.buttonText, color: "#F2CB07" }}>Confirmar alteração</Text>
               </TouchableOpacity>
             </View>
           }

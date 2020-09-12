@@ -28,8 +28,8 @@ export default function ProdutoDetail () {
     setLoading(true)
     try {
       const pedidoAtual = await adicionarItem(token, pedido.pedidoId, produto)
-      console.log(pedidoAtual)
-      navigation.navigate('pedidoDetail', { pedido: pedidoAtual })
+      const novoItem = pedidoAtual.itens.filter(ele => ele.produtoId === produto.produtoId)[0]
+      navigation.navigate('pedidoDetail', { novoItem })
       sucessMessage('Item adicionado com Sucesso')
     } catch {
       erroMessage('Erro ao adicionar Item')

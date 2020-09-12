@@ -49,19 +49,21 @@ export default function Disponiveis() {
     try {
       const pedidosDisponiveis = await pedidosFechados(token)
       let shouldUpdate = store.getState().pedidos.shouldUpdate
-      if (novosPedidos(pedidosDisponiveis) || shouldUpdate) {
-        atualizarPedidos(pedidosDisponiveis)
+      let shouldDetalhar = novosPedidos(pedidosDisponiveis)
+      if ( shouldDetalhar  || shouldUpdate) {
+        atualizarPedidos(pedidosDisponiveis, shouldDetalhar)
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  async function atualizarPedidos(pedidos) {
+  async function atualizarPedidos(pedidos, shouldDetalhar) {
     const pedidosOrdenados = pedidos.sort((a, b) => new Date(b.emissao) - new Date(a.emissao))
     store.dispatch(setShoudUpdate(false))
     await setPedidos(pedidosOrdenados)
     listaPedidos = pedidosOrdenados
+    if (shouldDetalhar) detalhar(pedidosOrdenados[0])
   }
 
   function novosPedidos(pedidosNovos) {

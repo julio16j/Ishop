@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableWithoutFeedbackComponent, FlatList } from 'react-native'
-import styles from './styles'
+import { View, Text, FlatList } from 'react-native'
+import styles from '../../styles'
 import { pedidosConfirmados } from '../../../../services/pedido'
 import store from '../../../../store'
 import Pedido from '../../../../components/Pedido'
@@ -9,11 +9,8 @@ import Header from '../../../../components/header'
 import { useNavigation } from '@react-navigation/native'
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
-  const [pedidoAtual, setPedidoAtual] = useState()
   const navigation = useNavigation()
   const token = store.getState().user.token
-  const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
 
   async function catchPedidos() {
     try {
@@ -24,25 +21,18 @@ export default function Disponiveis() {
   }
 
   useEffect(() => {
-    setLoading(true)
     try {
       catchPedidos()
     } catch (error) {
       console.log(error)
-    } finally {
-      setLoading(false)
     }
     setInterval(catchPedidos, 1000)
   }, [])
 
   function detalhar(pedido) {
-    setPedidoAtual(pedido)
     navigation.navigate('pedidoDetail', {pedido})
   }
 
-  function fechar() {
-    navigation.navigate('home')
-  }
   return (
     <View style={styles.container}>
       <Header />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, FlatList } from 'react-native'
-import styles from './styles'
+import styles from '../../styles'
 import { pedidosFechados, confirmarPedido, rejeitarPedido } from '../../../../services/pedido'
 import store from '../../../../store'
 import { setShoudUpdate } from '../../../../store/pedidos/pedidosReducer'

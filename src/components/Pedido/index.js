@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import React, { useMemo, useState } from 'react'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import Spinner from 'react-native-loading-spinner-overlay'
 
-import Item from '../Item';
-import RenderCondicional from '../RenderCondicional';
+import Item from '../Item'
+import RenderCondicional from '../RenderCondicional'
 
-import styles from './styles';
+import styles from './styles'
 
 export default function Pedido({ pedido, confirmar, rejeitar, token, loading = false, detalhar }) {
   const total = useMemo(() => {
@@ -40,8 +40,7 @@ export default function Pedido({ pedido, confirmar, rejeitar, token, loading = f
         />
       </View>
       <View style={styles.total}>
-        <Text style={{ fontWeight: "bold", fontSize: 18, color: "#BFBFBF" }}>R$</Text>
-        <Text style={{ fontSize: 18, color: "#BFBFBF" }}>{total}</Text>
+        <Text style={{ fontSize: 18, color: "#BFBFBF" }}>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(total)}</Text>
       </View>
 
       <RenderCondicional
@@ -50,7 +49,7 @@ export default function Pedido({ pedido, confirmar, rejeitar, token, loading = f
           <View style={styles.options}>
             <View style={{ alignItems: "center" }}>
               <TouchableOpacity onPress={() => rejeitar(token, pedido.pedidoId)}>
-                <Text style={styles.textOption}>Cancelar</Text>
+                <Text style={styles.textOption}>Rejeitar</Text>
               </TouchableOpacity>
             </View>
 

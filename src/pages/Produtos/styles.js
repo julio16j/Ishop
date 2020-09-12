@@ -44,20 +44,23 @@ export default StyleSheet.create({
   },
   cardTitle: {
     fontSize: 16,
-    fontWeight: "600"
+    fontWeight: "bold",
+    color: "#7A7A7A"
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 0.5,
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
     borderBottomColor: '#222222',
     marginBottom: 2,
     padding: 1
   },
   cardSubtitle: {
-    padding: 1
+    padding: 1,
+    opacity: 0.4
+  },
+  itemCost: {
+    opacity: 0.4
   }
 });

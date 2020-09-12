@@ -68,8 +68,8 @@ export default function ProdutoDetail () {
               funcao2={<View style={styles.produtoImg} />}
             />
             <View style={styles.headerDetail}>
-              <Text style={styles.itemButtonAdicionar}> {produto.titulo} </Text>
-              <Text style={styles.preco}> R$ {produto.valorUnitario} </Text>
+              <Text style={styles.produtoTitle}> {produto.titulo} </Text>
+              <Text style={styles.preco}> {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(produto.valorUnitario)} </Text>
             </View>
             <View style={styles.bodyDetail}>
               <Text style={styles.descricaoProduto}> {produto.descricao}</Text>
@@ -83,7 +83,7 @@ export default function ProdutoDetail () {
             <Text style={styles.itemButtonText}>-</Text>
           </TouchableOpacity>
           <TextInput
-            style={styles.valorTotal}
+            style={styles.quantidadeNumber}
             keyboardType={"numeric"}
             onChangeText={novaQuantidade => setQuantidade(novaQuantidade)}>
             {produto.quantidade}
@@ -93,8 +93,8 @@ export default function ProdutoDetail () {
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.addProduto} onPress={addProduto}>
-          <Text style={styles.valorTotal}> R$ {produto.quantidade * produto.valorUnitario} </Text>
-          <Text style={{fontSize: 18}} > - </Text>
+          <Text style={styles.valorTotal}> {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(produto.quantidade * produto.valorUnitario)} </Text>
+          <Text style={styles.itemButtonAdicionar} > - </Text>
           <Text style={styles.itemButtonAdicionar}>Adicionar</Text>
         </TouchableOpacity>
       </View>

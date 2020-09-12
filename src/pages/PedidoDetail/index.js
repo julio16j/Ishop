@@ -19,23 +19,22 @@ import { alterarItem, removerItem } from "../../services/item"
 import { rejeitarPedido } from '../../services/pedido'
 import { sucessMessage, erroMessage } from '../../services/alerts'
 import store from "../../store"
-
+import { setShoudUpdate } from "../../store/pedidos/pedidosReducer"
 export default function PedidoDetail() {
-  const { height, width } = Dimensions.get("screen")
-  const [itens, setItens] = useState([0])
-  const [pagamento, setPagamento] = useState([0])
-  const [registros, setRegistros] = useState()
-  const [pedidoAtual, setPedidoAtual] = useState({ pagtos: [] })
-  const [quantidade, setQuantidade] = useState(0)
+  const [pedidoAtual, setPedidoAtual] = useState({ pagtos: [], itens: [] })
   const [loading, setLoading] = useState(false)
   const route = useRoute()
   const token = store.getState().user.token
   const navigation = useNavigation()
   function navigateBack() {
-    navigation.navigate('home')
+    navigation.navigate('home', { shouldUpdate: true })
   }
   function adicionarItens() {
     navigation.navigate('produtos', { pedido: pedidoAtual })
+  }
+
+  function setItens (novaLista) {
+    setPedidoAtual({...pedidoAtual, itens: novaLista})
   }
 
   async function excluirItem(token, pedidoId, pedidoItemId) {
@@ -51,19 +50,24 @@ export default function PedidoDetail() {
   }
 
   const total = useMemo(() => {
-    return itens.reduce((acumulador, atual) => {
+    return pedidoAtual.itens.reduce((acumulador, atual) => {
       return acumulador + atual.quantidade * atual.valorUnitario
     }, 0)
-  }, [itens])
+  }, [pedidoAtual.itens])
 
-  function alterarPedido() {
+  async function alterarPedido() {
     setLoading(true)
     try {
-      setItens(itens.map(ele => {
-        alterarItem(token, pedidoAtual.pedidoId, ele.pedidoItemId, ele)
+      let promises = []
+      const novosItens = pedidoAtual.itens.map(ele => {
+        promises.push(alterarItem(token, pedidoAtual.pedidoId, ele.pedidoItemId, ele))
         return ele
-      }))
-      alterarValorTotal()
+      })
+      setItens(novosItens)
+      await Promise.all(promises)
+      store.dispatch(setShoudUpdate(true))
+      navigation.navigate('home')
+      sucessMessage('Pedido Alterado com Sucesso')
     } catch {
       erroMessage('Erro ao alterar pedido')
     } finally {
@@ -72,29 +76,31 @@ export default function PedidoDetail() {
   }
 
   function updateQuantidade(item, quantidade) {
-    setItens(itens.map(ele => {
+    setItens(pedidoAtual.itens.map(ele => {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade = Number(quantidade)
       return ele
     }))
   }
 
   function updateValor(item, valor) {
-    setItens(itens.map(ele => {
+    setItens(pedidoAtual.itens.map(ele => {
       if (ele.pedidoItemId === item.pedidoItemId) ele.valorUnitario = Number(valor)
       return ele
     }))
   }
 
   function aumentarQuantidade(item) {
-    setItens(itens.map(ele => {
-      if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade += 1
+    setItens(pedidoAtual.itens.map(ele => {
+      if (ele.pedidoItemId === item.pedidoItemId) {
+        ele.quantidade += 1
+      }
       return ele
     }))
 
   }
 
   function diminuirQuantidade(item) {
-    setItens(itens.map(ele => {
+    setItens(pedidoAtual.itens.map(ele => {
       if (ele.pedidoItemId === item.pedidoItemId) ele.quantidade -= 1
       return ele
     }))
@@ -117,17 +123,13 @@ export default function PedidoDetail() {
 
   useEffect(() => {
     if (route.params) {
-      setPedidoAtual(route.params.pedido)
-      setItens(route.params.pedido.itens)
-      setPagamento(route.params.pedido.pagtos)
-      setRegistros(route.params.pedido.registros)
+      setPedidoAtual({ ...route.params.pedido })
     }
-  }, [route.params])
+  }, [])
 
   return (
     <View style={styles.centeredView}>
       <Header />
-
       <Spinner
         visible={loading}
         textContent={'Loading...'}
@@ -144,7 +146,7 @@ export default function PedidoDetail() {
 
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Meus itens</Text>
-          {itens.map((item, index) => {
+          {pedidoAtual.itens.map((item, index) => {
             return (
               <View style={styles.item} key={index}>
                 <RenderCondicional
@@ -184,14 +186,13 @@ export default function PedidoDetail() {
                   </View>
 
                   <View style={styles.itemCost}>
-                    <Text style={styles.itemCostText}>R$</Text>
                     <TextInput
                       style={styles.itemCostText}
                       onChangeText={(valor) => { updateValor(item, valor) }}
                       keyboardType="numeric"
                       editable={pedidoAtual.situacao <= 2}
                     >
-                      {item.valorUnitario}
+                      {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(item.valorUnitario)}
                     </TextInput>
                   </View>
                 </View>
@@ -200,7 +201,7 @@ export default function PedidoDetail() {
           })}
           <View style={styles.total}>
             <Text style={styles.cardText}>Total :</Text>
-            <Text style={styles.totalValue}>R$ {total ? total : 0.00}</Text>
+            <Text style={styles.totalValue}>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(total ? total : 0.00)}</Text>
           </View>
           <TouchableOpacity style={{ ...styles.button, backgroundColor: "orange" }} onPress={adicionarItens} >
             <Text style={styles.buttonText}>Adicionar itens</Text>
@@ -247,7 +248,7 @@ export default function PedidoDetail() {
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
                 style={styles.buttonDisponivel}
-                onPress={() => RejeitarPedido(token, pedidoAtual.pedidoId)}
+                onPress={navigateBack}
               >
                 <Text style={{ ...styles.buttonText, color: "#F2CB07" }}>Cancelar</Text>
               </TouchableOpacity>
@@ -255,7 +256,7 @@ export default function PedidoDetail() {
                 style={styles.buttonDisponivel}
                 onPress={alterarPedido}
               >
-                <Text style={{ ...styles.buttonText, color: "#F2CB07" }}>Confirmar alteração</Text>
+                <Text style={{ ...styles.buttonText, color: "#F2CB07" }}>Alterar</Text>
               </TouchableOpacity>
             </View>
           }

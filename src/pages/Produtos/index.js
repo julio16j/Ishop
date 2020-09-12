@@ -44,11 +44,11 @@ export default function () {
                   <View style={styles.itemFooter}>
                     <View style={styles.header} >
                       <Text style={styles.cardTitle}>{item.item.titulo}</Text>
-                      <Text style={styles.itemCost}>
-                        R$ {item.item.valorUnitario}
-                      </Text>
                     </View>
                     <Text style={styles.cardSubtitle}>{item.item.descricao}</Text>
+                    <Text style={styles.itemCost}>
+                      {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(item.item.valorUnitario)}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>

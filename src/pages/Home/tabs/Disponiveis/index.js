@@ -3,18 +3,17 @@ import { View, Text, FlatList } from 'react-native'
 import styles from './styles'
 import { pedidosFechados, confirmarPedido, rejeitarPedido } from '../../../../services/pedido'
 import store from '../../../../store'
+import { setShoudUpdate } from '../../../../store/pedidos/pedidosReducer'
 import Pedido from '../../../../components/Pedido'
-import { successMessage, errorMessage } from '../../../../services/alerts'
+import { successMessage, erroMessage } from '../../../../services/alerts'
 import RenderCondicional from '../../../../components/RenderCondicional'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import Header from '../../../../components/header'
 var listaPedidos = []
 export default function Disponiveis() {
   const [pedidos, setPedidos] = useState([])
-  const [pedidoAtual, setPedidoAtual] = useState()
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
   const navigation = useNavigation()
   const route = useRoute()
   async function ConfirmarPedido(token, pedidoId) {
@@ -49,8 +48,7 @@ export default function Disponiveis() {
   async function catchPedidos() {
     try {
       const pedidosDisponiveis = await pedidosFechados(token)
-      let shouldUpdate = false
-      if (route.params) shouldUpdate = route.params.shouldUpdate
+      let shouldUpdate = store.getState().pedidos.shouldUpdate
       if (novosPedidos(pedidosDisponiveis) || shouldUpdate) {
         atualizarPedidos(pedidosDisponiveis)
       }
@@ -61,8 +59,7 @@ export default function Disponiveis() {
 
   async function atualizarPedidos(pedidos) {
     const pedidosOrdenados = pedidos.sort((a, b) => new Date(b.emissao) - new Date(a.emissao))
-    setPedidoAtual(pedidosOrdenados[0])
-    setVisible(true)
+    store.dispatch(setShoudUpdate(false))
     await setPedidos(pedidosOrdenados)
     listaPedidos = pedidosOrdenados
   }
@@ -84,6 +81,14 @@ export default function Disponiveis() {
     return isOn
   }
 
+  function updatePedido (novoPedido) {
+    console.log(novoPedido)
+    setPedidos(pedidos.map(ele => {
+      if (ele.pedidoId === novoPedido.pedidoId) return novoPedido
+      return ele
+    }))
+  }
+
   useEffect(() => {
     setLoading(true)
     try {
@@ -94,10 +99,9 @@ export default function Disponiveis() {
       setLoading(false)
     }
     setInterval(catchPedidos, 1000)
-  }, [route.params])
+  }, [])
 
   function detalhar(pedido) {
-    setPedidoAtual(pedido)
     navigation.navigate('pedidoDetail', { pedido })
   }
 

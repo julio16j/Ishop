@@ -49,8 +49,17 @@ export default StyleSheet.create({
     borderBottomRightRadius: 10,
     borderBottomColor: '#222222'
   },
+  produtoTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#7A7A7A"
+  },
   preco: {
-    fontSize: 18
+    fontSize: 18,
+    opacity: 0.6
+  },
+  descricaoProduto: {
+    opacity: 0.6
   },
   itemButton: {
     height: 25,
@@ -61,8 +70,8 @@ export default StyleSheet.create({
   },
   itemButtonText: {
     fontSize: 26,
-    fontWeight: "bold",
     textAlign: "center",
+    opacity: 0.4
   },
   footer: {
     flexDirection: "row",
@@ -93,10 +102,17 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     textAlign: "center",
+    opacity: 0.4
   },
   valorTotal: {
     fontSize: 20,
     fontWeight: "500",
-    textAlign: "center",
+    opacity: 0.4
+  },
+  quantidadeNumber: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: 'black',
+    opacity: 0.4
   }
 })

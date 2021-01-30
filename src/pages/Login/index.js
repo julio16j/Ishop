@@ -99,9 +99,6 @@ export default function Login() {
             <TouchableOpacity style={{marginTop: 10, width: '50%'}} onPress={() => console.log('esqueci a senha')}>
               <Text >Esqueci a senha</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{marginTop: 10}} onPress={() => NavigateCadastrar()}>
-              <Text >Cadastre-se</Text>
-            </TouchableOpacity>
           </View>
           <Button label={'Entrar'} click={() => logar(email, password)} style={{width: 300}}/>
         </View>

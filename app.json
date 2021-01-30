@@ -24,6 +24,12 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android":{
+      "package": "com.julioCesarMobile.MirrorJourney",
+      "adaptiveIcon": {
+        "backgroundColor": "#F2CB07"
+      }
     }
   }
 }

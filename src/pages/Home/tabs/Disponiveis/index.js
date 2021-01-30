@@ -5,9 +5,10 @@ import { pedidosFechados, confirmarPedido, rejeitarPedido } from '../../../../se
 import store from '../../../../store'
 import { setShoudUpdate } from '../../../../store/pedidos/pedidosReducer'
 import Pedido from '../../../../components/Pedido'
-import { successMessage, erroMessage } from '../../../../services/alerts'
+import { sucessMessage, erroMessage, infoMessage } from '../../../../services/alerts'
 import RenderCondicional from '../../../../components/RenderCondicional'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { Audio } from 'expo-av';
 import Header from '../../../../components/header'
 var listaPedidos = []
 export default function Disponiveis() {
@@ -15,18 +16,17 @@ export default function Disponiveis() {
   const token = store.getState().user.token
   const [loading, setLoading] = useState(false)
   const navigation = useNavigation()
-  const route = useRoute()
   async function ConfirmarPedido(token, pedidoId) {
     setLoading(true)
     try {
       const response = await confirmarPedido(token, pedidoId)
       if (response.status === 200) {
         setPedidos(pedidos.filter(pedido => pedido.pedidoId !== response.data.pedidoId))
-        successMessage('Perdido Confirmado')
+        sucessMessage('Perdido Confirmado')
       }
     } catch (err) {
       console.log(err)
-      errorMessage('Erro ao Confirmar Pedido')
+      erroMessage('Erro ao Confirmar Pedido')
     } finally {
       setLoading(false)
     }
@@ -37,10 +37,10 @@ export default function Disponiveis() {
       const response = await rejeitarPedido(token, pedidoId)
       if (response.status === 200) {
         setPedidos(pedidos.filter(pedido => pedido.pedidoId !== response.data.pedidoId))
-        successMessage('Perdido Rejeitado')
+        sucessMessage('Perdido Rejeitado')
       }
     } catch {
-      errorMessage('Erro ao Reijeitar Pedido')
+      erroMessage('Erro ao Reijeitar Pedido')
     } finally {
       setLoading(false)
     }
@@ -63,7 +63,11 @@ export default function Disponiveis() {
     store.dispatch(setShoudUpdate(false))
     await setPedidos(pedidosOrdenados)
     listaPedidos = pedidosOrdenados
-    if (shouldDetalhar) detalhar(pedidosOrdenados[0])
+    if (shouldDetalhar) {
+      await playSongAsync()
+      infoMessage('Novo Pedido !')
+      detalhar(pedidosOrdenados[0])
+    }
   }
 
   function novosPedidos(pedidosNovos) {
@@ -83,12 +87,12 @@ export default function Disponiveis() {
     return isOn
   }
 
-  function updatePedido (novoPedido) {
-    console.log(novoPedido)
-    setPedidos(pedidos.map(ele => {
-      if (ele.pedidoId === novoPedido.pedidoId) return novoPedido
-      return ele
-    }))
+  async function playSongAsync () {
+    const soundObject = new Audio.Sound();
+      try {
+        await soundObject.loadAsync(require('../../../../assets/caixaRegistradora.mp3'))
+        await soundObject.playAsync();
+      } catch {}
   }
 
   useEffect(() => {

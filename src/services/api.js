@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL:'https://excelta.com.br/App/api'
+  baseURL:'https://ishop.delivery/App/api'
 })
 export default api

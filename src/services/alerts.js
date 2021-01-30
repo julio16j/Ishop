@@ -9,3 +9,4 @@ function message (type) {
 }
 export const erroMessage = message('danger')
 export const sucessMessage = message('success')
+export const infoMessage = message('info')

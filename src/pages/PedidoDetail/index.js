@@ -132,7 +132,7 @@ export default function PedidoDetail() {
       const response = await rejeitarPedido(token, pedidoAtual.pedidoId)
       if (response.status === 200) {
        navigateBack()
-       successMessage('Perdido Rejeitado')
+       sucessMessage('Perdido Rejeitado')
       }
     } catch {
       erroMessage('Erro ao Reijeitar Pedido')
@@ -147,11 +147,11 @@ export default function PedidoDetail() {
       const response = await confirmarPedido(token, pedidoAtual.pedidoId)
       if (response.status === 200) {
         navigateBack()
-        successMessage('Perdido Confirmado')
+        sucessMessage('Perdido Confirmado')
       }
     } catch (err) {
       console.log(err)
-      errorMessage('Erro ao Confirmar Pedido')
+      erroMessage('Erro ao Confirmar Pedido')
     } finally {
       setLoading(false)
     }

@@ -8,8 +8,8 @@ import logoImg from '../../assets/ishopLogoPreta.png'
 import { stringNotNull, getSistema } from '../../services/utils'
 import { login, validarLogin } from '../../services/user'
 import Spinner from 'react-native-loading-spinner-overlay'
-import { errorMessage } from '../../services/alerts'
-import AsyncStorage from '@react-native-community/async-storage';
+import { erroMessage } from '../../services/alerts'
+import AsyncStorage from '@react-native-community/async-storage'
 import store from '../../store' 
 import { setToken } from '../../store/user/userReducer'
 import styles from './styles' 
@@ -52,21 +52,21 @@ export default function Login() {
       }
       else {
         setLoading(false)
-        errorMessage(loginResponse.data.exception)
+        erroMessage(loginResponse.data.exception)
       }
     } catch (error) {
       console.log(error)
-      errorMessage('Login Inválido')
+      erroMessage('Login Inválido')
     }
     setLoading(false)
   }
   function validaLogin (email, password) {
     if (!stringNotNull(email)) {
-      errorMessage('Email não poder nulo')
+      erroMessage('Email não poder nulo')
       return false
     }
     if (!stringNotNull(password)) {
-      errorMessage('Senha não poder nula')
+      erroMessage('Senha não poder nula')
       return false
     }
     return true

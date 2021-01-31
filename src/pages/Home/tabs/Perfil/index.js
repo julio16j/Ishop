@@ -6,7 +6,7 @@ import {
   Ionicons,
   FontAwesome5
 } from '@expo/vector-icons'
-import { errorMessage } from '../../../../services/alerts'
+import { erroMessage } from '../../../../services/alerts'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage'
 import store from '../../../../store'
@@ -23,7 +23,7 @@ export default function Perfil() {
       NavigateLogin()
     }catch (error) {
       console.log(error);
-      errorMessage('Falha ao deslogar')
+      erroMessage('Falha ao deslogar')
     }
   }
   return (

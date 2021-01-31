@@ -7,7 +7,7 @@ import Button from '../../components/button'
 import Spinner from 'react-native-loading-spinner-overlay'
 import logoImg from '../../assets/ishopLogoPreta.png'                            
 import { cadastrar } from '../../services/user'
-import { successMessage, errorMessage } from '../../services/alerts'
+import { sucessMessage, erroMessage } from '../../services/alerts'
 import { stringNotNull } from '../../services/utils'
 import styles from './styles'
 
@@ -29,7 +29,7 @@ export default function Cadastrar() {
       const response = await cadastrar(email, password, nome)
       if (response.data.exception !== undefined) {
         setLoading(false)
-        successMessage('Loja Cadastrada com sucesso')
+        sucessMessage('Loja Cadastrada com sucesso')
         setEmail(null)
         setNome(null)
         setSelecionado(null)
@@ -37,10 +37,10 @@ export default function Cadastrar() {
         setConfirmPassword(null)
         NavigateLogin()
       }
-      else errorMessage(response.data.exception)
+      else erroMessage(response.data.exception)
     } catch (err) {
       console.log(err)
-      errorMessage('Cadastro Inválido')
+      erroMessage('Cadastro Inválido')
     }
     setLoading(false)
   }
@@ -49,27 +49,27 @@ export default function Cadastrar() {
   }
   function validaCadastro (nome, email, password, confirmPassword, selecionado) {
     if (!selecionado) {
-      errorMessage('Por favor aceite os termos de uso')
+      erroMessage('Por favor aceite os termos de uso')
       return false
     }
     if (!stringNotNull(nome)) {
-      errorMessage('Nome não poder nulo')
+      erroMessage('Nome não poder nulo')
       return false
     }
     if (!stringNotNull(email)) {
-      errorMessage('Email não poder nulo')
+      erroMessage('Email não poder nulo')
       return false
     }
     if (!stringNotNull(password)) {
-      errorMessage('Senha não poder nula')
+      erroMessage('Senha não poder nula')
       return false
     } else {
       if (!stringNotNull(confirmPassword)) {
-        errorMessage('Confirme a senha não pode ser nulo')
+        erroMessage('Confirme a senha não pode ser nulo')
         return false
       } else {
         if (password !== confirmPassword) {
-          errorMessage('Senhas não coincidem')
+          erroMessage('Senhas não coincidem')
           return false
         }
       }

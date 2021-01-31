@@ -1,5 +1,9 @@
 import api from './api'
 
+export function listarItens (token) {
+  return api.get(`/store/${token}/produtos-por-loja`)
+}
+
 export async function alterarItem (token, pedidoId, pedidoItemId, item) {
   const alterarItemModel = {
     Quantidade: item.quantidade,

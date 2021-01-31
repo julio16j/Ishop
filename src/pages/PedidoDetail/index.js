@@ -16,7 +16,7 @@ import RenderCondicional from "../../components/RenderCondicional"
 import Header from '../../components/header'
 import styles from './styles'
 import { alterarItem, removerItem } from "../../services/item"
-import { rejeitarPedido } from '../../services/pedido'
+import { rejeitarPedido, confirmarPedido } from '../../services/pedido'
 import { sucessMessage, erroMessage } from '../../services/alerts'
 import store from "../../store"
 import { setShoudUpdate, setAlterado } from "../../store/pedidos/pedidosReducer"

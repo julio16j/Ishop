@@ -2,24 +2,34 @@ import React, {useState, useEffect} from 'react'
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { useRoute, useNavigation } from '@react-navigation/native'
+import { listarItens } from '../../services/item'
 import RenderCondicional from '../../components/RenderCondicional'
+import store from '../../store'
 import styles from './styles'
 export default function () {
+  const token = store.getState().user.token
   const navigation = useNavigation()
   const route = useRoute()
   const [pedidoAtual, setPedidoAtual] = useState({})
-  const [produtos, setProdutos] = useState([
-    { titulo: 'Leite Quente', produtoId: '40e19119-5694-4dba-b8b4-98125ff62429' , descricao: 'lorem ipsum dolor', valorUnitario: 10,  quantidade: 1 },
-    { titulo: 'Fio Dental', produtoId: '71c83c90-a771-4919-957b-e58106cbd53d' , descricao: 'lorem ipsum dolor', valorUnitario: 8.50, quantidade : 1 },
-    { titulo: 'Manteiga', produtoId: '71c83c90-a771-4919-957b-e58106cbd53d ', descricao: 'lorem ipsum dolor', valorUnitario: 3.50, quantidade: 1 }
-  ])
+  const [produtos, setProdutos] = useState([])
   function navigateToProdutoDetail (produto) {
     navigation.navigate('produtoDetail', {pedido: pedidoAtual, produto})
+  }
+  async function listarItens () {
+    try {
+      const response = await listarItens(token)
+      if (response.data && response.data.length > 0) {
+        setProdutos(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
   useEffect(() => {
     if (route.params) {
       if (route.params.pedido) setPedidoAtual(route.params.pedido)
     }
+    listarItens()
   }, [])
   return (
     <View style={styles.container}>
